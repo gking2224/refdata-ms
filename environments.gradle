@@ -1,0 +1,131 @@
+if (!project.hasProperty("env")) project.ext.env="local"
+
+environments {
+    env("all") {
+        database {
+            port = 3306
+            url = {"jdbc:mysql://${project.envProps.database.host}:${project.envProps.database.port}/${project.envProps.database.name}"}
+            rootUrl = {"jdbc:mysql://${project.envProps.database.host}:3306/${project.envProps.database.root.name}"}
+            driver = "com.mysql.jdbc.Driver"
+            root {
+                name = "mysql"
+                username = "${project.rootDatabaseUsername}"
+                password = "${project.rootDatabasePassword}"
+            }
+            hibernate {
+                showSql = "true"
+                formatSql = "true"
+                generateStatistics = "true"
+                hbm2ddlAuto = "validate"
+                dialect = "org.hibernate.dialect.MySQLInnoDBDialect"
+            }
+            connectionPoolSize = 2
+        }
+        webapp {
+            contextPath="/refdata"
+            httpPort=9000
+            ng {
+                buildDir = "dist"
+                port = 3000
+                deleteIndexHtml=false
+            }
+        }
+        batch {
+            baseDir="/batch/default"
+        }
+        springProfilesDefault = "dev"
+    }
+    env("local") {
+        database {
+            port = 9002
+            name = "${project.localDatabaseName}"
+            host = "${project.localDatabaseHost}"
+            password = "${project.localDatabasePassword}"
+            username = "${project.localDatabaseUsername}"
+            hibernate {
+                showSql = "false"
+                formatSql = "false"
+                generateStatistics = "true"
+                hbm2ddlAuto = "validate"
+            }
+            connectionPoolSize = 2
+        }
+        webapp {
+            contextPath="/refdata-local"
+            host="localhost"
+            ng {
+                buildDir = "dist-local"
+            }
+            httpPort=9000
+        }
+        batch {
+            baseDir="/batch/local"
+        }
+        springProfilesDefault = "dev"
+    }
+    env( "dev") {
+        database {
+            name = "${project.devDatabaseName}"
+            host = "${project.devDatabaseHost}"
+            password = "${project.devDatabasePassword}"
+            username = "${project.devDatabaseUsername}"
+        }
+        webapp {
+            contextPath="/refdata-dev"
+            ng {
+                buildDir = "dist-dev"
+            }
+            httpPort=9020
+        }
+        batch {
+            baseDir="/batch/dev"
+        }
+    }
+    env("test") {
+        database {
+            name = "${project.testDatabaseName}"
+            host = "${project.testDatabaseHost}"
+            password = "${project.testDatabasePassword}"
+            username = "${project.testDatabaseUsername}"
+        }
+        webapp {
+            contextPath="/refdata-test"
+            host="localhost"
+            ng {
+                buildDir = "dist-test"
+            }
+            httpPort=9040
+        }
+        batch {
+            baseDir="/batch/test"
+        }
+    }
+    env("prod") {
+        database {
+            name = "${project.prodDatabaseName}"
+            host = "${project.prodDatabaseHost}"
+            password = "${project.prodDatabasePassword}"
+            username = "${project.prodDatabaseUsername}"
+            hibernate {
+                showSql = "false"
+                formatSql = "false"
+                generateStatistics = "true"
+            }
+            connectionPoolSize = 10
+        }
+        webapp {
+            contextPath="/refdata-prod"
+            host="${project.prodWebserverHost}"
+            ng {
+                buildDir = "dist-prod"
+                port = 3000
+                deleteIndexHtml=true
+            }
+            httpPort=9060
+        }
+        batch {
+            baseDir="/batch/prod"
+        }
+        springProfilesDefault = "dev"
+    }
+}

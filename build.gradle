@@ -1,0 +1,233 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+//		maven {
+//			url 'https://artifactory.gking2224.me/artifactory/libs-snapshot'
+//		}
+//        maven {
+//            url 'https://artifactory.gking2224.me/artifactory/libs-release'
+//        }
+		maven { url "https://plugins.gradle.org/m2/" }
+//        maven.url "http://repo.spring.io/milestone"
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
+//        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.0"
+        classpath "me.gking2224:BuildToolsGradlePlugin:0.1.8-SNAPSHOT"
+        classpath "me.gking2224:AmazonAWSGradlePlugin:0.1.8-SNAPSHOT"
+        classpath "me.gking2224:DatabaseBuildGradlePlugin:0.1.0-SNAPSHOT"
+        classpath "me.gking2224:WebAppBuildGradlePlugin:0.0.1-SNAPSHOT"
+//        classpath 'com.bmuschko:gradle-tomcat-plugin:2.2.2'
+//        classpath "org.akhikhl.gretty:gretty:1.2.4"
+        classpath "mysql:mysql-connector-java:5.1.39"
+    }
+}
+plugins {
+  id "groovy"
+//  id "war"
+  id 'net.saliman.cobertura' version '2.3.2'
+}
+
+jar {
+    baseName = 'refdata-ms'
+    version =  '0.0.1-SNAPSHOT'
+}
+
+apply plugin: 'spring-boot'
+
+springBoot {
+    executable = true
+}
+bootRun {
+    jvmArgs "-Xdebug"
+    jvmArgs "-Xrunjdwp:server=y,transport=dt_socket,address=9001,suspend=y"
+    args = ["--disable-web=true", "--spring.profiles.active=batch"]
+}
+bootRepackage {
+    mainClass = 'me.gking2224.refdatams.RefDataMicroServiceApplication'
+}
+
+
+//apply from: 'artifactory.gradle'
+apply from: 'database.gradle'
+apply from: 'environments.gradle'
+apply from: 'webapp.gradle'
+
+apply plugin: 'me.gking2224.buildtools'
+apply plugin: 'me.gking2224.awsplugin'
+apply plugin: 'me.gking2224.databasebuild'
+apply plugin: 'me.gking2224.webappbuild'
+//apply plugin: "org.akhikhl.gretty"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+configurations {
+    compile.exclude group:'ch.qos.logback'
+}
+ext {
+      springVersion = "4.3.1.RELEASE"
+      springDataVersion = "1.10.2.RELEASE"
+      springBatchVersion = "3.0.7.RELEASE"
+      springBootVersion = "1.4.1.RELEASE"
+      jacksonVersion = "2.8.0"
+      freemarkerVersion = "2.3.23"
+      slf4jVersion = "1.7.21"
+      hibernateVersion = "5.2.1.Final"
+      mysqlVersion = "5.1.39"
+      h2Version = "1.4.192"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
+}
+
+integrationTest.outputs.upToDateWhen { false }
+
+dependencies {
+    // BUILD
+    compile localGroovy()
+    compile("org.springframework.boot:spring-boot-devtools")
+
+    
+    // logging
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
+    runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
+    
+    // spring boot
+    compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {
+//    compile("org.springframework.boot:spring-boot-starter-tomcat:$springBootVersion")
+//    compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
+//    compile("org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion")
+        exclude module: 'org.springframework.boot:spring-boot-starter-logging'
+    }
+    compile("org.springframework.boot:spring-boot:$springBootVersion")
+    
+    
+    
+    // spring framework
+    compile("org.springframework:spring-core:$springVersion")
+    compile("org.springframework:spring-web:$springVersion")
+    compile("org.springframework.data:spring-data-jpa:$springDataVersion")
+    compile("org.springframework.batch:spring-batch-core:$springBatchVersion")
+    compile("org.springframework:spring-webmvc:$springVersion")
+    compile("org.springframework:spring-context-support:$springVersion")
+    
+    
+    
+
+    
+    // MVC
+    compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jacksonVersion")
+    compile group: 'org.apache.velocity', name: 'velocity', version: '1.7'
+    compile(group: 'org.freemarker', name: 'freemarker', version:"$freemarkerVersion")
+    compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.2.0'
+    
+    
+
+    // DATABASE
+    compile("org.springframework:spring-jdbc:$springVersion")
+    compile "org.springframework:spring-orm:$springVersion"
+    compile "org.hibernate:hibernate-core:$hibernateVersion"
+    compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
+    runtime("mysql:mysql-connector-java:$mysqlVersion")
+    runtime "com.h2database:h2:$h2Version"
+//    runtime group: 'dom4j', name: 'dom4j', version: '1.6.1'
+    runtime "mysql:mysql-connector-mxj:5.0.12"
+    
+    // UTILS
+    compile group: 'org.aspectj', name: 'aspectjtools', version: '1.6.2'
+    compile("me.gking2224:gk-microservice-utils:0.0.1-SNAPSHOT")
+    
+    
+    // TESTING
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile "org.springframework:spring-test:$springVersion"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile "pl.pragmatists:JUnitParams:1.0.5"
+    testCompile "org.jmock:jmock-junit4:2.8.2"
+    
+    
+    // RUNTIME
+//    runtime group: 'javax.servlet', name: 'jstl', version: '1.2'
+    compile "org.apache.tomcat:tomcat-catalina:8.5.5"
+//    runtime group: 'javax.security.auth.message', name: 'jmac', version: '1.0'
+    compile group: 'javax.security.auth.message', name: 'javax.security.auth.message-api', version: '1.1'
+    
+//    providedCompile "javax.servlet:javax.servlet-api:3.1.0"
+}
+cobertura {
+    coverageDirs << file("build/integration-classes")
+}
+/*
+applicationDefaultJvmArgs = [
+    "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+]
+*/
+//gretty {
+//    port = 8081
+//    // supported values:
+//    // 'jetty7', 'jetty8', 'jetty9', 'tomcat7', 'tomcat8'
+//    servletContainer = 'tomcat8'
+//    integrationTestTask = 'xxintegrationTest' // name of existing gradle task
+////    extraResourceBase 'dist'
+//}
+
+configurations {
+  published
+}
+
+//war {
+//    from envProps.webapp.ng.buildDir
+//    archiveName "${project.name}-${project.version}-${project.env}.war"
+//}
+
+awsplugin {
+    region = "eu-west-1"
+}
+
+//task createWebServer(type:CreateInstanceTask) {
+//    imageId = {webServerAmi}
+//    instanceType = "t2.micro"
+//    securityGroup = "restricted"
+//    postInitWaitTime = 60
+//}
+
+//createWebServer << {
+//    project.envProps.webapp.host = publicIpAddress
+//}
+//
+//task deployWar(type:RemoteExec, dependsOn:[war]) {
+//    host = {project.envProps.webapp.host}
+//    keyFileDir = "/Users/gk"
+//    keyFileName = ".awskey"
+//    remoteUser = {project.remoteUser}
+//    timeout = 120
+//    ext.warFileName = {configurations.archives.artifacts.find{it.type=="war"}.file.name}
+//    ext.remoteDir = {"/home/$remoteUser/buildfiles/$runId"}
+//    exec {
+//        cmd = {"mkdir -p $remoteDir"}
+//    }
+//    scp {
+//        fromDir = "$scriptsDir/webapp"
+//        file = "deployWar.sh"
+//        to = {"$remoteDir"}
+//    }
+//    scp {
+//        fromDir = {configurations.archives.artifacts.find{it.type=="war"}.file.parentFile}
+//        file = {warFileName}
+//        to = {"$remoteDir"}
+//        template = false
+//    }
+//    exec {
+//        sudo = true
+//        cmds = [{"chmod 750 $remoteDir/deployWar.sh"}, {"$remoteDir/deployWar.sh"}]
+//    }
+//}
+//task deployWarToNewWebServer(dependsOn:[createWebServer,deployWar])
+//deployWar.mustRunAfter(createWebServer)
