@@ -16,7 +16,7 @@ import me.gking2224.refdatams.model.Country;
 public class CountryCsvLineMapper {
 
     
-    @Bean public LineMapper<Country> getCountryCsvLineMapper() {
+    @Bean("countryCsvLineMapper") public LineMapper<Country> getCountryCsvLineMapper() {
         
         DefaultLineMapper<Country> lm = new DefaultLineMapper<Country>();
         

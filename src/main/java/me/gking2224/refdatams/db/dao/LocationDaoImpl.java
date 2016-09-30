@@ -23,10 +23,15 @@ public class LocationDaoImpl extends AbstractDaoImpl<Location> implements Locati
     }
 
     @Override
-    public List<Location> findAllLocations() {
+    public List<Location> findAll() {
         List<Location> locations = locationRepository.findAll();
         locations.forEach(l -> {
             populateLocation(l);
+            getEntityManager().detach(l);
+            if (l.getCity() != null) getEntityManager().detach(l.getCity());
+            if (l.getCountry() != null) getEntityManager().detach(l.getCountry());
+            if (l.getBuilding() != null) getEntityManager().detach(l.getBuilding());
+            
         });
         return locations;
     }

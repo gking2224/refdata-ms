@@ -1,4 +1,4 @@
-package me.gking2224.refdatams.web;
+package me.gking2224.refdatams.web.mvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;

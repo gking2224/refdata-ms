@@ -1,4 +1,4 @@
-package me.gking2224.refdatams.web;
+package me.gking2224.refdatams.web.mvc;
 
 import javax.sql.DataSource;
 
@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import me.gking2224.refdatams.web.SystemInfoController;
+import me.gking2224.refdatams.web.mvc.SystemInfoController;
 
 //@org.springframework.web.bind.annotation.RestController
 public class SystemInfoController {

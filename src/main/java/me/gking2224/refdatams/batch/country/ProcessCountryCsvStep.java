@@ -1,6 +1,5 @@
 package me.gking2224.refdatams.batch.country;
 
-import static java.lang.String.format;
 import static me.gking2224.refdatams.batch.country.CountryBatchConstants.CSV_FILE;
 
 import java.io.File;
@@ -11,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.core.step.FatalStepExecutionException;
 import org.springframework.batch.core.step.builder.AbstractTaskletStepBuilder;
 import org.springframework.batch.core.step.builder.SimpleStepBuilder;
 import org.springframework.batch.core.step.tasklet.TaskletStep;
@@ -22,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.retry.RetryCallback;
 import org.springframework.retry.RetryContext;
 import org.springframework.retry.RetryListener;
@@ -44,9 +41,6 @@ extends AbstractEtlStep<Country,Country> {
     
     @Autowired
     private CountryDao countryDao;
-
-    @Autowired(required = true)
-    private LineMapper<Country> countryCsvLineMapper;
 
     @Autowired @Qualifier("countryBatchProperties")
     private Properties countryBatchProperties;
@@ -87,10 +81,12 @@ extends AbstractEtlStep<Country,Country> {
     @SuppressWarnings("rawtypes")
     @Bean("countryCsvReader")
     @StepScope
-    protected FlatFileItemReader countryCsvReader() {
+    protected FlatFileItemReader countryCsvReader(
+            LineMapper<Country> countryCsvLineMapper) {
         
-        return new FlatFileItemReaderBuilder<>(getProperties())
+        return new FlatFileItemReaderBuilder<Country>(getProperties())
                 .name("countryCsvReader")
+                .lineMapper(countryCsvLineMapper)
                 .skippedLinesCallback(this)
                 .file(getFromJobContext(CSV_FILE, File.class).orElseThrow(notInitialized(CSV_FILE)))
                 .build();

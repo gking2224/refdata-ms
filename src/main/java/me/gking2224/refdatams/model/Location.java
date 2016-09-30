@@ -13,6 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table
@@ -23,14 +24,19 @@ public class Location implements java.io.Serializable {
      */
     private static final long serialVersionUID = 2707606975268392692L;
 
+    @JsonView(View.Summary.class)
     private Long id;
-    
+
+    @JsonView(View.Summary.class)
     private String name;
-    
+
+    @JsonView(View.Summary.class)
     private Building building;
-    
+
+    @JsonView(View.Summary.class)
     private City city;
-    
+
+    @JsonView(View.Summary.class)
     private Country country;
     
     public Location() {

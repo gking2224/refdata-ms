@@ -13,30 +13,22 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table
-public class Country implements java.io.Serializable {
+public class Person {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 2707606975268392692L;
-
+    @JsonView(View.Summary.class)
     private Long id;
 
-    private String name;
+    @JsonView(View.Summary.class)
+    private String firstName;
 
-    private String code;
-    
-
-    public Country() {
-        super();
-    }
+    @JsonView(View.Summary.class)
+    private String surname;
 
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
-    @Column(name = "country_id")
+    @Column(name = "person_id")
     @JsonProperty("_id")
-    @JsonView(View.Summary.class)
     public Long getId() {
         return id;
     }
@@ -46,31 +38,30 @@ public class Country implements java.io.Serializable {
     }
 
     @Column
-    @JsonView(View.Summary.class)
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    @JsonView(View.Summary.class)
-    public String getCode() {
-        return code;
+    @Column
+    public String getSurname() {
+        return surname;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((code == null) ? 0 : code.hashCode());
+        result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((surname == null) ? 0 : surname.hashCode());
         return result;
     }
 
@@ -82,28 +73,27 @@ public class Country implements java.io.Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Country other = (Country) obj;
-        if (code == null) {
-            if (other.code != null)
+        Person other = (Person) obj;
+        if (firstName == null) {
+            if (other.firstName != null)
                 return false;
-        } else if (!code.equals(other.code))
+        } else if (!firstName.equals(other.firstName))
             return false;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (name == null) {
-            if (other.name != null)
+        if (surname == null) {
+            if (other.surname != null)
                 return false;
-        } else if (!name.equals(other.name))
+        } else if (!surname.equals(other.surname))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return String.format("Country [id=%s, name=%s, code=%s]",
-                id, name, code);
+        return String.format("Person [id=%s, firstName=%s, surname=%s]", id, firstName, surname);
     }
 }

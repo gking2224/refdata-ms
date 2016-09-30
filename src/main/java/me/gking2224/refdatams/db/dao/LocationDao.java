@@ -6,6 +6,6 @@ import me.gking2224.refdatams.model.Location;
 
 public interface LocationDao {
 
-    List<Location> findAllLocations();
+    List<Location> findAll();
 
 }

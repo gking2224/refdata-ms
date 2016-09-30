@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table
@@ -23,11 +24,13 @@ public class Building implements java.io.Serializable {
     private static final long serialVersionUID = 2707606975268392692L;
 
     private Long id;
-    
+
+    @JsonView(View.Summary.class)
     private String name;
-    
+
+    @JsonView(View.Detail.class)
     private City city;
-    
+
     public Building() {
         super();
     }

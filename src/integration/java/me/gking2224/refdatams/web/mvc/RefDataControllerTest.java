@@ -1,7 +1,7 @@
-package me.gking2224.refdatams.controller;
+package me.gking2224.refdatams.web.mvc;
 
 import static me.gking2224.common.utils.JsonMvcTestHelper.doGet;
-import static me.gking2224.refdatams.web.RefDataController.LOCATIONS;
+import static me.gking2224.refdatams.web.mvc.RefDataController.LOCATIONS;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,7 +20,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import me.gking2224.common.utils.JsonMvcTestHelper;
+import me.gking2224.refdatams.model.View;
 import me.gking2224.refdatams.mvc.RefDataWebAppTestConfigurer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,7 +31,8 @@ import me.gking2224.refdatams.mvc.RefDataWebAppTestConfigurer;
 @ContextConfiguration(classes=RefDataWebAppTestConfigurer.class)
 @Transactional
 @Rollback
-@Sql("/me/gking2224/refdatams/jpa/LocationRepositoryIT.sql")
+@ActiveProfiles({"local","web"})
+@Sql("../../db/jpa/LocationRepositoryIT.sql")
 public class RefDataControllerTest {
 
     @Autowired

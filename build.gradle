@@ -43,7 +43,7 @@ springBoot {
 bootRun {
     jvmArgs "-Xdebug"
     jvmArgs "-Xrunjdwp:server=y,transport=dt_socket,address=9001,suspend=y"
-    args = ["--disable-web=true", "--spring.profiles.active=batch"]
+    args = ["--spring.profiles.active=batch,web"]
 }
 bootRepackage {
     mainClass = 'me.gking2224.refdatams.RefDataMicroServiceApplication'
@@ -136,8 +136,6 @@ dependencies {
     compile "org.hibernate:hibernate-core:$hibernateVersion"
     compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
     runtime("mysql:mysql-connector-java:$mysqlVersion")
-    runtime "com.h2database:h2:$h2Version"
-//    runtime group: 'dom4j', name: 'dom4j', version: '1.6.1'
     runtime "mysql:mysql-connector-mxj:5.0.12"
     
     // UTILS

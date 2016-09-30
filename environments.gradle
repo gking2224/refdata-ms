@@ -5,7 +5,7 @@ environments {
         database {
             port = 3306
             url = {"jdbc:mysql://${project.envProps.database.host}:${project.envProps.database.port}/${project.envProps.database.name}"}
-            rootUrl = {"jdbc:mysql://${project.envProps.database.host}:3306/${project.envProps.database.root.name}"}
+            rootUrl = {"jdbc:mysql://${project.envProps.database.host}:${project.envProps.database.port}/${project.envProps.database.root.name}"}
             driver = "com.mysql.jdbc.Driver"
             root {
                 name = "mysql"
@@ -15,7 +15,7 @@ environments {
             hibernate {
                 showSql = "true"
                 formatSql = "true"
-                generateStatistics = "true"
+                generateStatistics = "false"
                 hbm2ddlAuto = "validate"
                 dialect = "org.hibernate.dialect.MySQLInnoDBDialect"
             }
@@ -33,7 +33,6 @@ environments {
         batch {
             baseDir="/batch/default"
         }
-        springProfilesDefault = "dev"
     }
     env("local") {
         database {
@@ -45,7 +44,6 @@ environments {
             hibernate {
                 showSql = "false"
                 formatSql = "false"
-                generateStatistics = "true"
                 hbm2ddlAuto = "validate"
             }
             connectionPoolSize = 2
@@ -61,9 +59,8 @@ environments {
         batch {
             baseDir="/batch/local"
         }
-        springProfilesDefault = "dev"
     }
-    env( "dev") {
+    env("dev") {
         database {
             name = "${project.devDatabaseName}"
             host = "${project.devDatabaseHost}"
@@ -109,7 +106,6 @@ environments {
             hibernate {
                 showSql = "false"
                 formatSql = "false"
-                generateStatistics = "true"
             }
             connectionPoolSize = 10
         }
@@ -126,6 +122,5 @@ environments {
         batch {
             baseDir="/batch/prod"
         }
-        springProfilesDefault = "dev"
     }
 }
