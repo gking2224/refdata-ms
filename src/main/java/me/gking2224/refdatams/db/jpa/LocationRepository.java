@@ -6,4 +6,6 @@ import me.gking2224.refdatams.model.Location;
 
 public interface LocationRepository extends JpaRepository<Location, Long>{
 
+    Location findByName(String name);
+
 }

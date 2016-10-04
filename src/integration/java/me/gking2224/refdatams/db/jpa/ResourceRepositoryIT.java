@@ -28,7 +28,7 @@ import me.gking2224.refdatams.mvc.RefDataWebAppTestConfigurer;
 @Transactional()
 @EnableJpaRepositories
 @Rollback
-@ActiveProfiles("local")
+@ActiveProfiles("embedded")
 @Sql({"LocationRepositoryIT.sql", "ResourceRepositoryIT.sql"})
 public class ResourceRepositoryIT {
 

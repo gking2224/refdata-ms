@@ -1,5 +1,7 @@
 package me.gking2224.refdatams.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -16,28 +19,29 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 @Table
-public class City implements java.io.Serializable {
+public class LocationRate implements java.io.Serializable {
 
     /**
      * 
      */
     private static final long serialVersionUID = 2707606975268392692L;
-
-    private Long id;
-
-    private String name;
-
-    private Country country;
     
+    private Long id;
+    
+    private Location location;
 
-    public City() {
+    private ContractType contractType;
+
+    private BigDecimal rate;
+    
+    public LocationRate() {
         super();
     }
 
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
-    @Column(name = "city_id")
+    @Column(name = "location_rate_id")
     @JsonProperty("_id")
     public Long getId() {
         return id;
@@ -47,34 +51,54 @@ public class City implements java.io.Serializable {
         this.id = id;
     }
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="location_id")
+    public Location getLocation() {
+        return location;
+    }
+    
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="contract_type_id")
+    public ContractType getContractType() {
+        return contractType;
+    }
+    
+    public void setContractType(ContractType contractType) {
+        this.contractType = contractType;
+    }
+
     @Column
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
+    }
+    
+    @Transient
+    @JsonProperty("contractType")
     @JsonView(View.Summary.class)
-    public String getName() {
-        return name;
+    public String getContractTypeCode() {
+        return getContractType().getCode();
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @ManyToOne(fetch=FetchType.EAGER, optional=false)
-    @JoinColumn(name="country_id")
-    @JsonView(View.Detail.class)
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
+    
+    @Transient
+    @JsonProperty("locationId")
+    @JsonView(View.Summary.class)
+    public Long getLocationId() {
+        return getLocation().getId();
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((country == null) ? 0 : country.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -86,29 +110,13 @@ public class City implements java.io.Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        City other = (City) obj;
-        if (country == null) {
-            if (other.country != null)
-                return false;
-        } else if (!country.equals(other.country))
-            return false;
+        LocationRate other = (LocationRate) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
         } else if (!id.equals(other.id))
             return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("City [id=%s, name=%s, country=%s]",
-                id, name, country);
     }
 
 }

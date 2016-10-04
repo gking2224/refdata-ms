@@ -8,4 +8,6 @@ public interface LocationDao {
 
     List<Location> findAll();
 
+    Location findByName(String name);
+
 }

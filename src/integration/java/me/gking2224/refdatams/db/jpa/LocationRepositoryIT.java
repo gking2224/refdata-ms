@@ -3,7 +3,9 @@ package me.gking2224.refdatams.db.jpa;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,8 +30,8 @@ import me.gking2224.refdatams.mvc.RefDataWebAppTestConfigurer;
 @Transactional()
 @EnableJpaRepositories
 @Rollback
-@ActiveProfiles("local")
-@Sql
+@ActiveProfiles("embedded")
+@Sql({"LocationRepositoryIT.sql", "ResourceRepositoryIT.sql"})
 public class LocationRepositoryIT {
 
     @Autowired
@@ -43,5 +45,11 @@ public class LocationRepositoryIT {
         
         assertNotNull(ll);
         assertTrue(ll.size() > 0);
+        
+        
+        Map<String, BigDecimal> rates = ll.get(0).getLocationRatesMap();
+        assertNotNull(rates);
+        
+        System.out.println(rates);
     }
 }

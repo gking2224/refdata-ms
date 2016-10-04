@@ -1,7 +1,5 @@
 package me.gking2224.refdatams.batch;
 
-import java.util.Properties;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Step;
@@ -27,9 +25,6 @@ public class InitMainBatchStep extends AbstractStep implements StepExecutionList
 
     @Autowired
     private StepBuilderFactory steps;
-
-    @Autowired @Qualifier("countryBatchProperties")
-    private Properties countryBatchProperties;
 
     @Bean("initMainBatch")
     protected Step initMainBatch(@StepScope @Qualifier("initMainBatchTasklet") Tasklet initMainBatch) {

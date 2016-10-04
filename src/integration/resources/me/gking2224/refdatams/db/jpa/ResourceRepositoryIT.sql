@@ -1,8 +1,4 @@
 
-insert into ContractType (contract_type_id, code, description) values (1, 'M', 'Managed Service');
-insert into ContractType (contract_type_id, code, description) values (2, 'C', 'Contractor');
-insert into ContractType (contract_type_id, code, description) values (3, 'P', 'Permanent');
-
 insert into Person (person_id, firstName, surname) values (1, 'Alex',    'Powell');
 insert into Person (person_id, firstName, surname) values (2, 'Monique', 'Richards');
 insert into Person (person_id, firstName, surname) values (3, 'Verna',   'Nichols');

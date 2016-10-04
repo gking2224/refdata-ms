@@ -4,6 +4,5 @@ import me.gking2224.refdatams.model.Country;
 
 public interface CountryDao {
     
-    void batchSaveOrUpdate(Country country);
-
+    Country save(Country country);
 }

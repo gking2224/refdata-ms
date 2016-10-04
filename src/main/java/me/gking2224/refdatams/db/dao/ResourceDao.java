@@ -8,4 +8,8 @@ public interface ResourceDao {
 
     List<Resource> findAll();
 
+    Resource batchSaveOrUpdate(Resource c);
+
+    Resource save(Resource r);
+
 }

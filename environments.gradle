@@ -36,13 +36,38 @@ environments {
     }
     env("local") {
         database {
+            name = "${project.localDatabaseName}"
+            host = "${project.localDatabaseHost}"
+            password = "${project.localDatabasePassword}"
+            username = "${project.localDatabaseUsername}"
+            hibernate {
+                showSql = "true"
+                formatSql = "false"
+                hbm2ddlAuto = "validate"
+            }
+            connectionPoolSize = 2
+        }
+        webapp {
+            contextPath="/refdata-local"
+            host="localhost"
+            ng {
+                buildDir = "dist-local"
+            }
+            httpPort=9000
+        }
+        batch {
+            baseDir="/batch/local"
+        }
+    }
+    env("embedded") {
+        database {
             port = 9002
             name = "${project.localDatabaseName}"
             host = "${project.localDatabaseHost}"
             password = "${project.localDatabasePassword}"
             username = "${project.localDatabaseUsername}"
             hibernate {
-                showSql = "false"
+                showSql = "true"
                 formatSql = "false"
                 hbm2ddlAuto = "validate"
             }

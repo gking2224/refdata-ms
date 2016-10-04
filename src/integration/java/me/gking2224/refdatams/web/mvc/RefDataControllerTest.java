@@ -20,10 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 import me.gking2224.common.utils.JsonMvcTestHelper;
-import me.gking2224.refdatams.model.View;
 import me.gking2224.refdatams.mvc.RefDataWebAppTestConfigurer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,7 +28,7 @@ import me.gking2224.refdatams.mvc.RefDataWebAppTestConfigurer;
 @ContextConfiguration(classes=RefDataWebAppTestConfigurer.class)
 @Transactional
 @Rollback
-@ActiveProfiles({"local","web"})
+@ActiveProfiles({"embedded","web"})
 @Sql("../../db/jpa/LocationRepositoryIT.sql")
 public class RefDataControllerTest {
 

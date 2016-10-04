@@ -14,6 +14,7 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
@@ -33,13 +34,20 @@ public class RefDataBatchController {
     public static final String LOCATIONS = "/locations";
 
     public static final String LOAD = "/load";
+
+    @Autowired JobRegistry jobRegistry;
     
+    @Autowired @Qualifier("defaultJobParameters")
+    private JobParametersBuilderBuilder defaultJobParameters;
+    
+    @Autowired
+    private JobLauncher jobLauncher;
 
     @RequestMapping(value=LOAD, method=GET)
     public ResponseEntity<Void> loadCountries(
-            JobLauncher jobLauncher,
-            JobRegistry jobRegistry,
-            @Qualifier("defaultJobParameters") JobParametersBuilderBuilder defaultJobParameters
+//            JobLauncher jobLauncher,
+//            JobRegistry jobRegistry,
+//            @Qualifier("defaultJobParameters") JobParametersBuilderBuilder defaultJobParameters
     ) throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException, Exception {
         logger.debug("Launching loadCountries job");
         

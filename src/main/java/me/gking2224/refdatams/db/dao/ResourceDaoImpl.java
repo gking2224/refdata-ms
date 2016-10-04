@@ -1,5 +1,7 @@
 package me.gking2224.refdatams.db.dao;
 
+import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import me.gking2224.refdatams.model.Resource;
 public class ResourceDaoImpl extends AbstractDaoImpl<Resource> implements ResourceDao {
 
     @Autowired
-    protected ResourceRepository resourceRepository;
+    protected ResourceRepository repository;
     
     
     public ResourceDaoImpl() {
@@ -23,7 +25,18 @@ public class ResourceDaoImpl extends AbstractDaoImpl<Resource> implements Resour
 
     @Override
     public List<Resource> findAll() {
-        List<Resource> resources = resourceRepository.findAll();
+        List<Resource> resources = repository.findAll();
         return resources;
+    }
+
+    @Override
+    @Transactional(propagation=REQUIRES_NEW)
+    public Resource batchSaveOrUpdate(Resource r) {
+        return save(r);
+    }
+
+    @Override
+    public Resource save(Resource r) {
+        return repository.save(r);
     }
 }

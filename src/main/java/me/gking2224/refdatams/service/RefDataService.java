@@ -10,4 +10,8 @@ public interface RefDataService {
     List<Location> findAllLocations();
     
     List<Resource> findAllResources();
+
+    Resource saveResource(Resource r);
+
+    Resource batchSaveResource(Resource r);
 }

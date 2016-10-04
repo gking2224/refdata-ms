@@ -25,10 +25,8 @@ public class Building implements java.io.Serializable {
 
     private Long id;
 
-    @JsonView(View.Summary.class)
     private String name;
 
-    @JsonView(View.Detail.class)
     private City city;
 
     public Building() {
@@ -48,6 +46,7 @@ public class Building implements java.io.Serializable {
         this.id = id;
     }
 
+    @JsonView(View.Summary.class)
     public String getName() {
         return name;
     }
@@ -56,8 +55,9 @@ public class Building implements java.io.Serializable {
         this.name = building;
     }
 
-    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @ManyToOne(fetch=FetchType.EAGER, optional=false)
     @JoinColumn(name="city_id")
+    @JsonView(View.Summary.class)
     public City getCity() {
         return city;
     }

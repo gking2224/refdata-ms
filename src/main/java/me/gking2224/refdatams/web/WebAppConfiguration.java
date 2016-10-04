@@ -7,10 +7,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @Profile("web")
 @ComponentScan({"me.gking2224.refdatams.web"})
+@EnableWebMvc
 public class WebAppConfiguration {
 
     @Bean

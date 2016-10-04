@@ -1,7 +1,5 @@
 package me.gking2224.refdatams.db.dao;
 
-import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +20,7 @@ public class CountryDaoImpl extends AbstractDaoImpl<Country> implements CountryD
     }
 
     @Override
-    @Transactional(propagation=REQUIRES_NEW)
-    public void batchSaveOrUpdate(Country country) {
+    public Country save(Country country) {
         
         if (country.getId() == null) {
             Country existing = countryRepository.findByCode(country.getCode());
@@ -31,7 +28,7 @@ public class CountryDaoImpl extends AbstractDaoImpl<Country> implements CountryD
                 country.setId(existing.getId());
             }
         }
-        countryRepository.save(country);
+        return countryRepository.save(country);
     }
 }
 

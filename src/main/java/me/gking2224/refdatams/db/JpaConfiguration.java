@@ -14,7 +14,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import me.gking2224.common.db.EntityManagerFactoryBeanBuilder;
 
 @Configuration
-@EnableJpaRepositories(basePackages={"me.gking2224.refdatams"}, entityManagerFactoryRef="entityManagerFactory")
+@EnableJpaRepositories(basePackages={"me.gking2224.refdatams.db.jpa"}, entityManagerFactoryRef="entityManagerFactory")
 public class JpaConfiguration {
     
     @Bean(name="entityManagerFactory")
@@ -24,7 +24,7 @@ public class JpaConfiguration {
             JpaVendorAdapter vendorAdapter
     ) {
         return new EntityManagerFactoryBeanBuilder()
-                .packages("me.gking2224.refdatams")
+                .packages("me.gking2224.refdatams.model")
                 .properties(hibernateProperties)
                 .dataSource(dataSource)
                 .vendorAdapter(vendorAdapter)

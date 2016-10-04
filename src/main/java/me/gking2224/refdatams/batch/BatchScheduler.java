@@ -41,7 +41,7 @@ public class BatchScheduler {
     @Autowired
     private JobLauncher jobLauncher;
     
-    @Scheduled(initialDelay=5000, fixedDelay=120000)
+    @Scheduled(cron="0 0 18 * * *")
     public void loadCountries() throws NoSuchJobException {
         
         try {

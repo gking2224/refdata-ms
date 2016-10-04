@@ -14,7 +14,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -91,25 +90,31 @@ public class Resource {
     @JsonView(View.Summary.class)
     @JsonProperty("contractType")
     public String getContractTypeCode() {
-        return getContractType().getCode();
+        return getContractType() == null ? null : getContractType().getCode();
     }
     
     @Transient
     @JsonView(View.Summary.class)
     public String getFirstName() {
-        return getPerson().getFirstName();
+        return getPerson() == null ? null : getPerson().getFirstName();
     }
 
     @JsonView(View.Summary.class)
     @Transient
     public String getSurname() {
-        return getPerson().getSurname();
+        return getPerson() == null ? null : getPerson().getSurname();
     }
+
+//    @JsonView(View.Summary.class)
+//    @Transient
+//    public Long getLocationId() {
+//        return getLocation() == null ? null : getLocation().getId();
+//    }
 
     @JsonView(View.Summary.class)
     @Transient
-    public Long getLocationId() {
-        return getLocation().getId();
+    public String getLocationName() {
+        return getLocation() == null ? null : getLocation().getName();
     }
 
     @Override

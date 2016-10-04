@@ -2,7 +2,6 @@ package me.gking2224.refdatams.db.dao;
 
 import java.util.List;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,7 @@ import me.gking2224.refdatams.model.Location;
 public class LocationDaoImpl extends AbstractDaoImpl<Location> implements LocationDao {
 
     @Autowired
-    protected LocationRepository locationRepository;
+    protected LocationRepository repository;
     
     
     public LocationDaoImpl() {
@@ -24,37 +23,12 @@ public class LocationDaoImpl extends AbstractDaoImpl<Location> implements Locati
 
     @Override
     public List<Location> findAll() {
-        List<Location> locations = locationRepository.findAll();
-        locations.forEach(l -> {
-            populateLocation(l);
-            getEntityManager().detach(l);
-            if (l.getCity() != null) getEntityManager().detach(l.getCity());
-            if (l.getCountry() != null) getEntityManager().detach(l.getCountry());
-            if (l.getBuilding() != null) getEntityManager().detach(l.getBuilding());
-            
-        });
+        List<Location> locations = repository.findAll();
         return locations;
     }
 
-    private void populateLocation(Location l) {
-
-        Hibernate.initialize(l.getBuilding());
-        Hibernate.initialize(l.getCity());
-        Hibernate.initialize(l.getCountry());
-        if (l.getBuilding() != null) {
-            Hibernate.initialize(l.getBuilding().getCity());
-            l.setCity(l.getBuilding().getCity());
-        }
-        if (l.getCity() != null) {
-            Hibernate.initialize(l.getCity().getCountry());
-            l.setCountry(l.getCity().getCountry());
-        }
-        getEntityManager().detach(l);
-        if (l.getBuilding() != null) {
-            l.getBuilding().setCity(null);
-        }
-        if (l.getCity() != null) {
-            l.getCity().setCountry(null);
-        }
+    @Override
+    public Location findByName(String name) {
+        return repository.findByName(name);
     }
 }
