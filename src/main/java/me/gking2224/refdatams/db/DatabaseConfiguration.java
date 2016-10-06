@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("!embedded")
 @ComponentScan({"me.gking2224.refdatams.db"})
-@Import(me.gking2224.common.db.DatabaseConfiguration.class)
+@Import(me.gking2224.common.db.CommonDatabaseConfiguration.class)
 public class DatabaseConfiguration {
 
 }

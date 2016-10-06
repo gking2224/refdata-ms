@@ -10,4 +10,6 @@ public interface LocationDao {
 
     Location findByName(String name);
 
+    Location save(Location l);
+
 }

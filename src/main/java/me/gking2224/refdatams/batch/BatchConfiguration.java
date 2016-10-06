@@ -10,15 +10,17 @@ import org.springframework.batch.core.configuration.support.GenericApplicationCo
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 
-@Configuration
+import me.gking2224.common.batch.CommonBatchConfiguration;
+
 @Profile("batch")
-@Import(BatchScheduler.class)
+@Import({BatchScheduler.class, CommonBatchConfiguration.class})
 @EnableBatchProcessing(modular=true)
 public class BatchConfiguration extends DefaultBatchConfigurer {
 
@@ -38,6 +40,12 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
     public TaskExecutor getTaskExecutor() {
         SimpleAsyncTaskExecutor te = new SimpleAsyncTaskExecutor();
         return te;
+    }
+
+    @Bean
+    public TaskScheduler getTaskScheduler() {
+        TaskScheduler ts = new ConcurrentTaskScheduler();
+        return ts;
     }
 
     @Bean

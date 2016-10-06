@@ -1,4 +1,4 @@
-package me.gking2224.refdatams.batch.country;
+package me.gking2224.refdatams.batch.jobs;
 
 public class ResourceFileRow {
 
@@ -58,7 +58,7 @@ public class ResourceFileRow {
 
     @Override
     public String toString() {
-        return String.format("ResourceFileRow [firstName=%s, surname=%s, contractType=%s, rate=%s, location=%s]",
+        return String.format("LocationFileRow [firstName=%s, surname=%s, contractType=%s, rate=%s, location=%s]",
                 firstName, surname, contractType, rate, location);
     }
 }

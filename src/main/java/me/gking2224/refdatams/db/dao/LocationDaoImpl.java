@@ -11,7 +11,7 @@ import me.gking2224.refdatams.db.jpa.LocationRepository;
 import me.gking2224.refdatams.model.Location;
 
 @Component
-@Transactional
+@Transactional(readOnly=true)
 public class LocationDaoImpl extends AbstractDaoImpl<Location> implements LocationDao {
 
     @Autowired
@@ -30,5 +30,13 @@ public class LocationDaoImpl extends AbstractDaoImpl<Location> implements Locati
     @Override
     public Location findByName(String name) {
         return repository.findByName(name);
+    }
+
+    @Override
+    @Transactional(readOnly=false)
+    public Location save(Location l) {
+        Location saved = repository.save(l);
+        flush();
+        return saved;
     }
 }

@@ -19,11 +19,11 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import me.gking2224.refdatams.model.Resource;
-import me.gking2224.refdatams.mvc.RefDataWebAppTestConfigurer;
+import me.gking2224.refdatams.mvc.RefDataWebAppTestConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration(classes=RefDataWebAppTestConfigurer.class)
+@ContextConfiguration(classes=RefDataWebAppTestConfiguration.class)
 @TestPropertySource("/test.properties")
 @Transactional()
 @EnableJpaRepositories

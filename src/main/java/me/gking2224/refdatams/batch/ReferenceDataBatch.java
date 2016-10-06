@@ -20,12 +20,20 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
-import me.gking2224.refdatams.batch.country.CountryBatchConfiguration;
-import me.gking2224.refdatams.batch.country.ResourceBatchConfiguration;
+import me.gking2224.refdatams.batch.jobs.CountryBatchConfiguration;
+import me.gking2224.refdatams.batch.jobs.LocationBatchConfiguration;
+import me.gking2224.refdatams.batch.jobs.LocationRatesBatchConfiguration;
+import me.gking2224.refdatams.batch.jobs.ResourceBatchConfiguration;
 
 @Configuration
-@ComponentScan("me.gking2224.refdatams.batch.country")
-@Import({InitMainBatchStep.class, CountryBatchConfiguration.class, ResourceBatchConfiguration.class})
+@ComponentScan(basePackages={"me.gking2224.refdatams.batch.jobs"})
+@Import({
+    InitMainBatchStep.class,
+    CountryBatchConfiguration.class,
+    ResourceBatchConfiguration.class,
+    LocationBatchConfiguration.class,
+    LocationRatesBatchConfiguration.class
+})
 public class ReferenceDataBatch {
     
     private boolean async = true;
@@ -46,14 +54,18 @@ public class ReferenceDataBatch {
     public Job mainBatch(
             @Qualifier("initMainBatch") Step initBatch,
             @Qualifier("countryBatch") Flow countryBatch,
-            @Qualifier("resourceBatch") Flow resourceBatch
+            @Qualifier("resourceBatch") Flow resourceBatch,
+            @Qualifier("locationBatch") Flow locationBatch,
+            @Qualifier("locationRatesBatch") Flow locationRatesBatch
     ) {
         SimpleJobBuilder builder = jobs.get("mainRefDataBatch")
             .start(initBatch);
+        
+        Flow[] flows = new Flow[] { countryBatch, locationBatch, locationRatesBatch, resourceBatch };
         if (async)
-            async(builder, countryBatch, resourceBatch);
+            async(builder, flows);
         else
-            sequential(builder, countryBatch, resourceBatch);
+            sequential(builder, flows);
         return builder.build();
     }
 

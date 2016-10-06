@@ -21,14 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import me.gking2224.common.utils.JsonMvcTestHelper;
-import me.gking2224.refdatams.mvc.RefDataWebAppTestConfigurer;
+import me.gking2224.refdatams.mvc.RefDataWebAppTestConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration()
-@ContextConfiguration(classes=RefDataWebAppTestConfigurer.class)
+@ActiveProfiles({"embedded","web"})
+@ContextConfiguration(classes=RefDataWebAppTestConfiguration.class)
 @Transactional
 @Rollback
-@ActiveProfiles({"embedded","web"})
 @Sql("../../db/jpa/LocationRepositoryIT.sql")
 public class RefDataControllerTest {
 

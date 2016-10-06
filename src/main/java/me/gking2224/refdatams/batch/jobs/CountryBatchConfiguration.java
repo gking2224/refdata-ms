@@ -1,4 +1,4 @@
-package me.gking2224.refdatams.batch.country;
+package me.gking2224.refdatams.batch.jobs;
 
 import static org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW;
 
@@ -14,12 +14,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import me.gking2224.common.batch.generic.ProcessFileBatchFlowBuilder;
+import me.gking2224.common.batch.generic.AbstractBatchConfiguration;
 import me.gking2224.refdatams.db.dao.CountryDao;
 import me.gking2224.refdatams.model.Country;
 
 @Configuration
-public class CountryBatchConfiguration  {
+public class CountryBatchConfiguration extends AbstractBatchConfiguration<CountryInFile, Country> {
 
     @Autowired @Qualifier("batchProperties")
     private Properties batchProperties;
@@ -35,26 +35,32 @@ public class CountryBatchConfiguration  {
     
     @Bean("countryBatch")
     public Flow countryBatch() {
-        return new ProcessFileBatchFlowBuilder<CountryInFile, Country>(
-                steps, batchProperties, "country")
-                .writeFunction(writeFunction())
-                .fieldNames("code", "name", "fileField")
-                
-                .fieldsMapper((String[] a) -> {
-                    CountryInFile rv = new CountryInFile();
-                    rv.setCode(a[0]);
-                    rv.setDescription(a[1]);
-                    rv.setFileField(a[2]);
-                    return rv;
-                })
-                .readFromFileProcessorFunction(toCountry())
-                .writeToFileProcessorFunction(fromCountry())
-                .fieldExtractor(item -> new String[] {item.getCode(), item.getDescription(), item.getFileField()})
-//                .fieldExtractor(fieldExtractor)
-                .build();
+        return fileProcessFlowBuilder(steps, batchProperties).build();
+    }
+    
+    @Override
+    protected String getFlowName() {
+        return "country";
+    }
+    
+    @Override
+    protected String[] fieldNames() {
+        return new String[] {"code", "name", "fileField"};
     }
 
-    private Function<Country, Void> writeFunction() {
+    @Override
+    protected Function<String[], CountryInFile> fromFields() {
+        return (String[] a) -> {
+            CountryInFile rv = new CountryInFile();
+            rv.setCode(a[0]);
+            rv.setDescription(a[1]);
+            rv.setFileField(a[2]);
+            return rv;
+        };
+    }
+
+    @Override
+    protected Function<Country, Void> writeFunction() {
         return country -> {
             TransactionTemplate tt = new TransactionTemplate(transactionManager);
             tt.setPropagationBehavior(PROPAGATION_REQUIRES_NEW);
@@ -63,7 +69,8 @@ public class CountryBatchConfiguration  {
         };
     }
     
-    private Function<CountryInFile, Country> toCountry() {
+    @Override
+    protected Function<CountryInFile, Country> toEntityObject() {
         return (cf) -> {
             Country c = new Country();
             c.setCode(cf.getCode());
@@ -72,14 +79,25 @@ public class CountryBatchConfiguration  {
         };
     }
     
-    private Function<Country, CountryInFile> fromCountry() {
-        return (c) -> {
+    @Override
+    protected Function<Country, CountryInFile> toRowObject() {
+        return (Country c) -> {
             CountryInFile cf = new CountryInFile();
             cf.setCode(c.getCode());
             cf.setDescription(c.getName());
             cf.setFileField("error");
             return cf;
         };
+    }
+
+    @Override
+    protected Class<Country> getOutClass() {
+        return Country.class;
+    }
+
+    @Override
+    protected Class<CountryInFile> getInClass() {
+        return CountryInFile.class;
     }
 
 }

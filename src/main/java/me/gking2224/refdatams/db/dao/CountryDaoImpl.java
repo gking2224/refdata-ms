@@ -9,7 +9,7 @@ import me.gking2224.refdatams.db.jpa.CountryRepository;
 import me.gking2224.refdatams.model.Country;
 
 @Component
-@Transactional()
+@Transactional(readOnly=true)
 public class CountryDaoImpl extends AbstractDaoImpl<Country> implements CountryDao {
     
     @Autowired
@@ -20,7 +20,8 @@ public class CountryDaoImpl extends AbstractDaoImpl<Country> implements CountryD
     }
 
     @Override
-    public Country save(Country country) {
+    @Transactional(readOnly=false)
+    public Country save(final Country country) {
         
         if (country.getId() == null) {
             Country existing = countryRepository.findByCode(country.getCode());
@@ -28,7 +29,14 @@ public class CountryDaoImpl extends AbstractDaoImpl<Country> implements CountryD
                 country.setId(existing.getId());
             }
         }
-        return countryRepository.save(country);
+        Country saved = countryRepository.save(country);
+        flush();
+        return saved;
+    }
+
+    @Override
+    public Country findByCode(final String code) {
+        return countryRepository.findByCode(code);
     }
 }
 

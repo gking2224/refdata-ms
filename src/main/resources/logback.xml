@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration  -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user             -->
+<!--                                                                -->
+<!-- For professional support please see                            -->
+<!--    http://www.qos.ch/shop/products/professionalSupport         -->
+<!--                                                                -->
+<configuration>
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%d [%t] %-5p %c- %m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>info</level>
+    </filter>
+  </appender>
+  
+  
+  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
+    <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy-->
+    <!--for further documentation-->
+    <File>/logs/refdatams.log</File>
+    <Append>true</Append>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>%d [%t] %-5p %c- %m%n</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/logs/refdatams.%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  
+  
+  <appender name="socket" class="ch.qos.logback.classic.net.SocketAppender">
+   <RemoteHost>localhost</RemoteHost>
+    <Port>4560</Port>
+    <ReconnectionDelay>170</ReconnectionDelay>
+    <IncludeCallerData>true</IncludeCallerData>
+  </appender>
+  
+  
+  <logger name="me.gking2224" level="DEBUG"/>
+  <logger name="me.gking2224.common.db.embedded.EmbeddedMySQLDatabase" level="WARN"/>
+  <logger name="me.gking2224.common.utils.NestedProperties" level="WARN"/>
+  
+  <logger name="org.hibernate.engine" level="WARN"/>
+  
+  <logger name="org.eclipse.jetty" level="WARN"/>
+  
+  <logger name="org.springframework" level="INFO"/>
+  
+  <root level="WARN">
+    <appender-ref ref="file"/>
+    <appender-ref ref="socket"/>
+  </root>
+</configuration>

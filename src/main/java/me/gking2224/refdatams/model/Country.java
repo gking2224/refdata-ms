@@ -11,6 +11,8 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import me.gking2224.common.web.View;
+
 @Entity
 @Table
 public class Country implements java.io.Serializable {
@@ -29,6 +31,10 @@ public class Country implements java.io.Serializable {
 
     public Country() {
         super();
+    }
+
+    public Country(String code) {
+        this.code = code;
     }
 
     @Id

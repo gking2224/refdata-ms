@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import me.gking2224.common.utils.JsonUtil;
+import me.gking2224.common.web.View;
 import me.gking2224.refdatams.model.Location;
 import me.gking2224.refdatams.model.Resource;
-import me.gking2224.refdatams.model.View;
 import me.gking2224.refdatams.service.RefDataService;
 
 @org.springframework.web.bind.annotation.RestController

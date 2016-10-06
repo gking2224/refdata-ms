@@ -1,4 +1,4 @@
-if (!project.hasProperty("env")) project.ext.env="local"
+if (!project.hasProperty("env")) project.ext.env="embedded"
 
 environments {
     env("all") {
@@ -13,8 +13,8 @@ environments {
                 password = "${project.rootDatabasePassword}"
             }
             hibernate {
-                showSql = "true"
-                formatSql = "true"
+                showSql = "false"
+                formatSql = "false"
                 generateStatistics = "false"
                 hbm2ddlAuto = "validate"
                 dialect = "org.hibernate.dialect.MySQLInnoDBDialect"

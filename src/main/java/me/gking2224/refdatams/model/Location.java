@@ -2,9 +2,12 @@ package me.gking2224.refdatams.model;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +23,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+
+import me.gking2224.common.web.View;
 
 @Entity
 @Table
@@ -42,7 +47,7 @@ public class Location implements java.io.Serializable {
     
 //    private Map<Location, BigDecimal> locationRates;
     
-    private Set<LocationRate> locationRates;
+    private Set<LocationRate> locationRates = new HashSet<LocationRate>();
     
     public Location() {
         super();
@@ -125,26 +130,45 @@ public class Location implements java.io.Serializable {
     @Transient
     @JsonProperty("city")
     @JsonView(View.Summary.class)
-    public String getCityCode() {
+    public String getCityName() {
         if (getCity() != null) return getCity().getName();
         else return null;
     }
+    
+    @Transient
+    public Optional<LocationRate> getRate(final ContractType contractType) {
+        return this.locationRates.stream()
+                .filter(r -> r.getContractTypeCode().equals(contractType.getCode()))
+                .findFirst();
+    }
+    
+    public void setLocationRate(final ContractType contractType, final BigDecimal rate) {
+        
+        Optional<LocationRate> locationRate = getRate(contractType);
+        
+        if (!locationRate.isPresent()) {
+            this.locationRates.add(newLocationRate(contractType, rate));
+        }
+        else {
+            locationRate.get().setRate(rate);
+        }
+    }
 
-//    @OneToMany(mappedBy="location", targetEntity=LocationRate.class, fetch=FetchType.LAZY)
-//    @MapKeyClass(value=Location.class)
-//    @ElementCollection(targetClass=LocationRate.class)
-//    @MapKeyJoinColumn(table="location")
-//    public Map<Location,BigDecimal> getLocationRates() {
-//        return locationRates;
-//    }
+    private LocationRate newLocationRate(ContractType contractType, BigDecimal rate) {
+        LocationRate rv = new LocationRate();
+        rv.setContractType(contractType);
+        rv.setRate(rate);
+        rv.setLocation(this);
+        return rv;
+    }
 
-//    public void setLocationRates(Map<Location,BigDecimal> locationRates) {
-//        this.locationRates = locationRates;
-//    }
-
-    @OneToMany(mappedBy="location", fetch=FetchType.LAZY)
+    @OneToMany(mappedBy="location", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     public Set<LocationRate> getLocationRates() {
         return locationRates;
+    }
+
+    public void addLocationRate(LocationRate newRate) {
+        locationRates.add(newRate);
     }
 
     public void setLocationRates(Set<LocationRate> locationRatesSet) {
@@ -154,7 +178,7 @@ public class Location implements java.io.Serializable {
     @JsonProperty("rates")
     @JsonView(View.Summary.class)
     @Transient
-    public Map<String,BigDecimal> getLocationRatesMap() {
+    public Map<String, BigDecimal> getLocationRatesMap() {
         Map<String,BigDecimal> rv = new HashMap<String,BigDecimal>();
         getLocationRates().stream().forEach(e -> rv.put(e.getContractTypeCode(), e.getRate()));
         return rv;

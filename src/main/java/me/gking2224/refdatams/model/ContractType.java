@@ -11,6 +11,8 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import me.gking2224.common.web.View;
+
 @Entity
 @Table
 public class ContractType {
@@ -21,6 +23,15 @@ public class ContractType {
     
     private String description;
 
+    public ContractType() {
+        super();
+    }
+    
+    public ContractType(String code) {
+        super();
+        this.code = code;
+    }
+    
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")

@@ -1,6 +1,8 @@
-package me.gking2224.refdatams.batch.country;
+package me.gking2224.refdatams.batch.jobs;
 
-public class CountryInFile {
+import me.gking2224.common.batch.generic.FileRowEntry;
+
+public class CountryInFile extends FileRowEntry<CountryInFile>{
 
     private String code;
     
@@ -34,5 +36,10 @@ public class CountryInFile {
 
     public void setFileField(String fileField) {
         this.fileField = fileField;
+    }
+
+    @Override
+    public String[] getTokens() {
+        return new String[] { code, description, fileField };
     }
 }

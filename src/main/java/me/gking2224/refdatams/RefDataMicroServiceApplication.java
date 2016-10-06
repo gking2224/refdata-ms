@@ -17,15 +17,17 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.context.support.StandardServletEnvironment;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import me.gking2224.common.CommonConfiguration;
 import me.gking2224.refdatams.batch.BatchConfiguration;
 import me.gking2224.refdatams.db.DatabaseConfiguration;
+import me.gking2224.refdatams.db.EmbeddedDatabaseConfiguration;
 import me.gking2224.refdatams.web.WebAppConfiguration;
 
 @Configuration
-@ComponentScan(basePackages={"me.gking2224.refdatams.service", "me.gking2224.refdatams.model", "me.gking2224.common"})
+@ComponentScan(basePackages={"me.gking2224.refdatams.service", "me.gking2224.refdatams.model"})
 @EnableAutoConfiguration
 @EnableWebMvc
-@Import({BatchConfiguration.class, WebAppConfiguration.class, DatabaseConfiguration.class})
+@Import({BatchConfiguration.class, WebAppConfiguration.class, DatabaseConfiguration.class, EmbeddedDatabaseConfiguration.class, CommonConfiguration.class})
 public class RefDataMicroServiceApplication extends SpringBootServletInitializer{
     
     @Override

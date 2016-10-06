@@ -14,6 +14,8 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import me.gking2224.common.web.View;
+
 @Entity
 @Table
 public class City implements java.io.Serializable {
@@ -32,6 +34,11 @@ public class City implements java.io.Serializable {
 
     public City() {
         super();
+    }
+
+    public City(String name, Country country) {
+        this.name = name;
+        this.country = country;
     }
 
     @Id

@@ -17,6 +17,8 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import me.gking2224.common.web.View;
+
 @Entity
 @Table
 public class LocationRate implements java.io.Serializable {
@@ -61,7 +63,7 @@ public class LocationRate implements java.io.Serializable {
         this.location = location;
     }
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="contract_type_id")
     public ContractType getContractType() {
         return contractType;
@@ -95,9 +97,16 @@ public class LocationRate implements java.io.Serializable {
     }
 
     @Override
+    public String toString() {
+        return String.format("LocationRate [id=%s, contractType=%s, rate=%s]", id, contractType,
+                rate);
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((contractType == null) ? 0 : contractType.hashCode());
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
@@ -111,6 +120,11 @@ public class LocationRate implements java.io.Serializable {
         if (getClass() != obj.getClass())
             return false;
         LocationRate other = (LocationRate) obj;
+        if (contractType == null) {
+            if (other.contractType != null)
+                return false;
+        } else if (!contractType.equals(other.contractType))
+            return false;
         if (id == null) {
             if (other.id != null)
                 return false;
