@@ -161,23 +161,10 @@ applicationDefaultJvmArgs = [
     "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
 ]
 */
-//gretty {
-//    port = 8081
-//    // supported values:
-//    // 'jetty7', 'jetty8', 'jetty9', 'tomcat7', 'tomcat8'
-//    servletContainer = 'tomcat8'
-//    integrationTestTask = 'xxintegrationTest' // name of existing gradle task
-////    extraResourceBase 'dist'
-//}
 
 configurations {
   published
 }
-
-//war {
-//    from envProps.webapp.ng.buildDir
-//    archiveName "${project.name}-${project.version}-${project.env}.war"
-//}
 
 awsplugin {
     region = "eu-west-1"
