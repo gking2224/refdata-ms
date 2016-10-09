@@ -69,7 +69,6 @@ public class Resource {
 
     @ManyToOne(fetch=FetchType.EAGER, optional=true)
     @JoinColumn(name="location_id")
-    @JsonView(View.Summary.class)
     public Location getLocation() {
         return location;
     }
@@ -117,6 +116,12 @@ public class Resource {
     @Transient
     public String getLocationName() {
         return getLocation() == null ? null : getLocation().getName();
+    }
+
+    @JsonView(View.Summary.class)
+    @Transient
+    public Long getLocationId() {
+        return getLocation() == null ? null : getLocation().getId();
     }
 
     @Override

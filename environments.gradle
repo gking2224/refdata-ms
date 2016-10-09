@@ -1,3 +1,4 @@
+
 if (!project.hasProperty("env")) project.ext.env="embedded"
 
 environments {
@@ -41,7 +42,7 @@ environments {
             password = "${project.localDatabasePassword}"
             username = "${project.localDatabaseUsername}"
             hibernate {
-                showSql = "true"
+                showSql = "false"
                 formatSql = "false"
                 hbm2ddlAuto = "validate"
             }

@@ -59,9 +59,9 @@ public class RefDataBatchController {
     public ResponseEntity<Void> loadCountries(
             @RequestParam(required=true, name="job") String jobName
     ) throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException, Exception {
-        logger.debug("Launching loadCountries job");
         
         Job loadCountriesJob = jobRegistry.getJob(jobName);
+        logger.debug("Running job {}", jobName);
         
         JobParametersBuilder jobParametersBuilder = defaultJobParameters.getJobParametersBuilder();
         
