@@ -41,7 +41,7 @@ bootRun {
     jvmArgs "-Xdebug"
     jvmArgs "-Xrunjdwp:server=y,transport=dt_socket,address=9001,suspend=y"
     jvmArgs "-Dorg.jboss.logging.provider=slf4j"
-    args = ["--spring.profiles.active=batch,web,"+project.env]
+    args = ["--spring.profiles.active=batch,web"]
 }
 bootRepackage {
     mainClass = 'me.gking2224.refdatams.RefDataMicroServiceApplication'
