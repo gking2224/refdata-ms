@@ -1,8 +1,7 @@
 package me.gking2224.refdatams.db.dao;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +11,7 @@ import me.gking2224.refdatams.model.Location;
 
 @Component
 @Transactional(readOnly=true)
-public class LocationDaoImpl extends AbstractDaoImpl<Location> implements LocationDao {
+public class LocationDaoImpl extends AbstractDaoImpl<Location, Long> implements LocationDao {
 
     @Autowired
     protected LocationRepository repository;
@@ -22,21 +21,12 @@ public class LocationDaoImpl extends AbstractDaoImpl<Location> implements Locati
     }
 
     @Override
-    public List<Location> findAll() {
-        List<Location> locations = repository.findAll();
-        return locations;
-    }
-
-    @Override
     public Location findByName(String name) {
         return repository.findByName(name);
     }
 
     @Override
-    @Transactional(readOnly=false)
-    public Location save(Location l) {
-        Location saved = repository.save(l);
-        flush();
-        return saved;
+    protected JpaRepository<Location, Long> getRepository() {
+        return repository;
     }
 }

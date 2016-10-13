@@ -3,6 +3,7 @@ package me.gking2224.refdatams.db.dao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,7 +13,7 @@ import me.gking2224.refdatams.model.Person;
 
 @Component
 @Transactional
-public class PersonDaoImpl extends AbstractDaoImpl<Person> implements PersonDao {
+public class PersonDaoImpl extends AbstractDaoImpl<Person, Long> implements PersonDao {
 
     @Autowired
     protected PersonRepository repository;
@@ -27,7 +28,7 @@ public class PersonDaoImpl extends AbstractDaoImpl<Person> implements PersonDao 
     }
 
     @Override
-    public Person save(Person person) {
-        return repository.save(person);
+    protected JpaRepository<Person, Long> getRepository() {
+        return repository;
     }
 }
