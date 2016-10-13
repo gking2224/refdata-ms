@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import me.gking2224.common.batch.generic.AbstractBatchConfiguration;
+import me.gking2224.common.batch.generic.AbstractEtlBatchConfiguration;
 import me.gking2224.refdatams.model.ContractType;
 import me.gking2224.refdatams.model.Location;
 import me.gking2224.refdatams.model.Person;
@@ -26,7 +26,7 @@ import me.gking2224.refdatams.model.Resource;
 import me.gking2224.refdatams.service.RefDataService;
 
 @Configuration
-public class ResourceBatchConfiguration extends AbstractBatchConfiguration<ResourceFileRow, Resource> {
+public class ResourceBatchConfiguration extends AbstractEtlBatchConfiguration<ResourceFileRow, Resource> {
 
     @Autowired @Qualifier("batchProperties")
     private Properties batchProperties;

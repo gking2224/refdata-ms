@@ -16,13 +16,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import me.gking2224.common.batch.generic.AbstractBatchConfiguration;
+import me.gking2224.common.batch.generic.AbstractEtlBatchConfiguration;
 import me.gking2224.refdatams.model.ContractType;
 import me.gking2224.refdatams.model.Location;
 import me.gking2224.refdatams.service.RefDataService;
 
 @Configuration
-public class LocationRatesBatchConfiguration extends AbstractBatchConfiguration<LocationRatesFileRow, Location> {
+public class LocationRatesBatchConfiguration extends AbstractEtlBatchConfiguration<LocationRatesFileRow, Location> {
 
     @Autowired @Qualifier("batchProperties")
     private Properties batchProperties;

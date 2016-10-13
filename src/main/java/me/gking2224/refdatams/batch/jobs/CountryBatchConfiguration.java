@@ -14,12 +14,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import me.gking2224.common.batch.generic.AbstractBatchConfiguration;
+import me.gking2224.common.batch.generic.AbstractEtlBatchConfiguration;
 import me.gking2224.refdatams.db.dao.CountryDao;
 import me.gking2224.refdatams.model.Country;
 
 @Configuration
-public class CountryBatchConfiguration extends AbstractBatchConfiguration<CountryInFile, Country> {
+public class CountryBatchConfiguration extends AbstractEtlBatchConfiguration<CountryInFile, Country> {
 
     @Autowired @Qualifier("batchProperties")
     private Properties batchProperties;

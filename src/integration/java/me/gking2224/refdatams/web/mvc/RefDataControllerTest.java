@@ -1,6 +1,6 @@
 package me.gking2224.refdatams.web.mvc;
 
-import static me.gking2224.common.utils.JsonMvcTestHelper.doGet;
+import static me.gking2224.common.utils.test.JsonMvcTestHelper.doGet;
 import static me.gking2224.refdatams.web.mvc.RefDataController.LOCATIONS;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import me.gking2224.common.utils.JsonMvcTestHelper;
+import me.gking2224.common.utils.test.JsonMvcTestHelper;
 import me.gking2224.refdatams.mvc.RefDataWebAppTestConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)

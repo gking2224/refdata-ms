@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-import me.gking2224.common.utils.JsonUtil;
 import me.gking2224.common.web.View;
 import me.gking2224.refdatams.model.Location;
 import me.gking2224.refdatams.model.Resource;
@@ -34,9 +33,6 @@ public class RefDataController {
     
 	@Autowired
 	RefDataService refDataService;
-	
-	@Autowired
-	JsonUtil jsonUtil;
 
     @RequestMapping(value=LOCATIONS, method=GET)
     @JsonView(View.Summary.class)
