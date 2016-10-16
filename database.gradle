@@ -33,21 +33,8 @@ repositories {
   mavenCentral()
 }
 
-//task createDatabaseServer(type:CreateInstanceTask) {
-//    imageId = {databaseAmi}
-//    instanceType = "t2.micro"
-//    securityGroup = "restricted"
-//    postInitWaitTime = 60
-//}
-//
-//createDatabaseServer << {
-//    project.envProps.database.host = publicDnsName
-//}
 task createDatabaseServer << {
     
-}
-configurations.all {
-    exclude group: 'org.slf4j', module: 'log4j-over-slf4j'
 }
 
 configurations {
@@ -62,6 +49,12 @@ configurations {
 //}
 
 URLClassLoader loader = GroovyObject.class.classLoader
-configurations.driver.each {File file ->
+//configurations.driver.each {File file ->
 //    loader.addURL(file.toURI().toURL())
+//}
+
+dbconfig {
+    createDatabaseScript dbDir, "createDatabaseAndUser.sql"
 }
+
+task deployDbFullOnNewServer(dependsOn:[createDatabaseServer,makeDatabase,deployDbFull])

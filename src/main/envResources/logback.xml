@@ -22,13 +22,13 @@
     <!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
     <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy-->
     <!--for further documentation-->
-    <File>/logs/refdatams.log</File>
+    <File>/logs/${project.name}.log</File>
     <Append>true</Append>
     <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
       <pattern>%d [%t] %-5p %c- %m%n</pattern>
     </encoder>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>/logs/refdatams.%d{yyyy-MM-dd}.log</fileNamePattern>
+      <fileNamePattern>/logs/${project.name}.%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
   </appender>
   
@@ -40,7 +40,7 @@
     <IncludeCallerData>true</IncludeCallerData>
   </appender>
   
-  
+  <logger name="me.gking2224.common.aop.TraceAspect" level="TRACE"/>
   <logger name="me.gking2224" level="DEBUG"/>
   <logger name="me.gking2224.common.db.embedded.EmbeddedMySQLDatabase" level="WARN"/>
   <logger name="me.gking2224.common.utils.NestedProperties" level="WARN"/>
@@ -52,7 +52,8 @@
   <logger name="org.springframework" level="INFO"/>
   
   <root level="WARN">
+    <!-- <appender-ref ref="console"/> -->
     <appender-ref ref="file"/>
-    <appender-ref ref="socket"/>
+    <!-- <appender-ref ref="socket"/> -->
   </root>
 </configuration>
