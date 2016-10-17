@@ -32,6 +32,7 @@ environments {
             port= "${project.securityServicePort}"
             context= "${project.securityServiceContext}"
             realmName= "${project.realmName}"
+            allowedCorsOrigins="${project.allowedCorsOrigins}"
         }
         batch {
             baseDir="/batch/default"
