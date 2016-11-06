@@ -16,6 +16,7 @@ buildscript {
         classpath "me.gking2224:WebAppBuildGradlePlugin:0.0.+"
         classpath group: "me.gking2224", name:"MicroServicesGradlePlugin", version:"0.0.+"
         classpath "mysql:mysql-connector-java:5.1.39"
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
     }
 }
 plugins {
@@ -37,6 +38,7 @@ apply plugin: 'me.gking2224.awsplugin'
 apply plugin: 'me.gking2224.databasebuild'
 apply plugin: 'me.gking2224.webappbuild'
 apply plugin: 'me.gking2224.msplugin'
+apply plugin: 'docker'
 
 apply plugin: 'spring-boot'
 springBoot {
