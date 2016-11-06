@@ -1,0 +1,7 @@
+build
+src
+db
+docker
+gradle
+tmp
+scripts
