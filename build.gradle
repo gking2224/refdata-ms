@@ -25,7 +25,7 @@ plugins {
 }
 
 jar {
-    baseName = 'refdata-ms'
+    baseName = project.name
     version =  project.version
 }
 
