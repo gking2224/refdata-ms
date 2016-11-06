@@ -17,11 +17,13 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import me.gking2224.common.model.AbstractEntity;
 import me.gking2224.common.web.View;
+import me.gking2224.refdatams.client.ResourceBean;
 
 @Entity
 @Table
-public class Resource {
+public class Resource extends AbstractEntity<ResourceBean> {
 
     private Long id;
     
@@ -177,5 +179,17 @@ public class Resource {
     public String toString() {
         return String.format("Resource [id=%s, person=%s, billRate=%s, location=%s, contractType=%s]", id, person,
                 billRate, location, contractType);
+    }
+    
+    @Transient
+    @Override
+    public ResourceBean getBean() {
+        ResourceBean rv = new ResourceBean();
+        rv.setId(this.getId());
+        rv.setLocation(this.getLocationId());
+        rv.setBillRate(this.getBillRate());
+        rv.setContractType(this.getContractTypeCode());
+        rv.setPerson(this.getPerson().getBean());
+        return rv;
     }
 }

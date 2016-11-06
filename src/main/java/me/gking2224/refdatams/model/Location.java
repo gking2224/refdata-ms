@@ -24,11 +24,13 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import me.gking2224.common.model.AbstractEntity;
 import me.gking2224.common.web.View;
+import me.gking2224.refdatams.client.LocationBean;
 
 @Entity
 @Table
-public class Location implements java.io.Serializable {
+public class Location extends AbstractEntity<LocationBean> implements java.io.Serializable {
 
     /**
      * 
@@ -215,4 +217,15 @@ public class Location implements java.io.Serializable {
         return true;
     }
 
+    @Override
+    @Transient
+    public LocationBean getBean() {
+        LocationBean rv = new LocationBean();
+        rv.setId(this.getId());
+        rv.setBuilding(this.getBuildingName());
+        rv.setCity(this.getCityName());
+        rv.setCountry(this.getCountryCode());
+        rv.setRates(this.getLocationRatesMap());
+        return rv;
+    }
 }

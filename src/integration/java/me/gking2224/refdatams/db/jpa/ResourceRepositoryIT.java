@@ -8,27 +8,20 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import me.gking2224.refdatams.RefDataServiceTestInitializer;
+import me.gking2224.refdatams.RefDataTestConfiguration;
 import me.gking2224.refdatams.model.Resource;
-import me.gking2224.refdatams.mvc.RefDataWebAppTestConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration()
-@ContextConfiguration(classes=RefDataWebAppTestConfiguration.class)
-@TestPropertySource("/test.properties")
-@Transactional()
-@EnableJpaRepositories
+@ContextConfiguration(name="refdatams", classes=RefDataTestConfiguration.class, initializers={RefDataServiceTestInitializer.class})
+@Transactional
 @Rollback
-@ActiveProfiles("embedded")
 @Sql({"LocationRepositoryIT.sql", "ResourceRepositoryIT.sql"})
 public class ResourceRepositoryIT {
 

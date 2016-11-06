@@ -5,17 +5,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import me.gking2224.common.model.AbstractEntity;
 import me.gking2224.common.web.View;
+import me.gking2224.refdatams.client.ContractTypeBean;
 
 @Entity
 @Table
-public class ContractType {
+public class ContractType extends AbstractEntity<ContractTypeBean>{
 
     private Long id;
     
@@ -106,5 +109,15 @@ public class ContractType {
     @Override
     public String toString() {
         return String.format("ContractType [id=%s, code=%s, description=%s]", id, code, description);
+    }
+    
+    @Override
+    @Transient
+    public ContractTypeBean getBean() {
+        ContractTypeBean rv = new ContractTypeBean();
+        rv.setId(this.getId());
+        rv.setCode(this.getCode());
+        rv.setDescription(this.getDescription());
+        return rv;
     }
 }

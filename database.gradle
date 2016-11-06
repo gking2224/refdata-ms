@@ -1,27 +1,19 @@
 
 import java.util.regex.Pattern.Branch;
 
-import me.gking2224.awsplugin.task.CreateInstanceTask
-import me.gking2224.buildtools.tasks.RemoteExec
-import me.gking2224.dbgp.plugin.task.ExecuteDatabaseScript
-
 buildscript {
     repositories {
         mavenLocal()
         mavenCentral()
         jcenter()
-//        maven {
-//            url 'https://artifactory.gking2224.me/artifactory/libs-snapshot'
-//        }
-//        maven {
-//            url 'https://artifactory.gking2224.me/artifactory/libs-release'
-//        }
+        maven { url= "http://nexus.gking2224.me/nexus/content/repositories/releases" }
+        maven { url= "http://nexus.gking2224.me/nexus/content/repositories/snapshots" }
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath "me.gking2224:BuildToolsGradlePlugin:0.1.8-SNAPSHOT"
-        classpath "me.gking2224:AmazonAWSGradlePlugin:0.1.8-SNAPSHOT"
-        classpath "me.gking2224:DatabaseBuildGradlePlugin:0.1.0-SNAPSHOT"
+        classpath "me.gking2224:BuildToolsGradlePlugin:0.2.+"
+        classpath "me.gking2224:AmazonAWSGradlePlugin:0.1.+"
+        classpath "me.gking2224:DatabaseBuildGradlePlugin:0.1.+"
         classpath "mysql:mysql-connector-java:5.1.39"
     }
 }

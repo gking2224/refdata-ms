@@ -10,24 +10,25 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import me.gking2224.common.utils.test.JsonMvcTestHelper;
+import me.gking2224.refdatams.RefDataServiceTestInitializer;
 import me.gking2224.refdatams.mvc.RefDataWebAppTestConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration()
-@ActiveProfiles({"embedded","web"})
-@ContextConfiguration(classes=RefDataWebAppTestConfiguration.class)
+@ContextConfiguration(name="refdatams", classes=RefDataWebAppTestConfiguration.class, initializers={RefDataServiceTestInitializer.class})
 @Transactional
+@ActiveProfiles("web")
+@SpringBootTest
 @Rollback
 @Sql("../../db/jpa/LocationRepositoryIT.sql")
 public class RefDataControllerTest {

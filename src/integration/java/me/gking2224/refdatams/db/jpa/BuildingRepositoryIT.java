@@ -9,18 +9,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import me.gking2224.refdatams.RefDataServiceTestInitializer;
 import me.gking2224.refdatams.RefDataTestConfiguration;
 import me.gking2224.refdatams.model.Building;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles({"embedded"})
-@ContextConfiguration(classes=RefDataTestConfiguration.class)
+@ContextConfiguration(name="refdatams", classes=RefDataTestConfiguration.class, initializers={RefDataServiceTestInitializer.class})
 @Transactional
 @Rollback
 @Sql({"./LocationRepositoryIT.sql"})

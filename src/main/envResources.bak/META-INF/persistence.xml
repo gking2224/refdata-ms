@@ -1,0 +1,31 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+        version="2.0">
+    <persistence-unit name="me.gking2224.refdatams">
+      <description>
+            Model Server Persistence Unit
+        </description>
+
+<!--     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> -->
+        <!-- <class>me.gking2224.model.jpa.ModelManifest</class>
+        <class>me.gking2224.model.jpa.ModelType</class>
+        <class>me.gking2224.model.jpa.Model</class>
+        <class>me.gking2224.model.jpa.ModelVariable</class>
+        <class>me.gking2224.model.jpa.Variable</class>
+        <class>me.gking2224.model.jpa.BigDecimalToVersionConverter</class> -->
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="<%=envProps.database.driver%>" />
+            <property name="javax.persistence.jdbc.url" value="<%=envProps.database.url%>" />
+            <property name="javax.persistence.jdbc.user" value="<%=envProps.database.username%>" />
+            <property name="javax.persistence.jdbc.password" value="<%=envProps.database.password%>" />
+
+            <property name="hibernate.show_sql" value="<%=envProps.database.hibernate.showSql%>" />
+            <property name="hibernate.hbm2ddl.auto" value="<%=envProps.database.hibernate.hbm2ddlAuto%>" />
+            <property name="hibernate.dialect" value="<%=envProps.database.hibernate.dialect%>" />
+            <property name="hibernate.format_sql" value="<%=envProps.database.hibernate.formatSql%>" />
+            <property name="hibernate.generate_statistics" value="<%=envProps.database.hibernate.generateStatistics%>" />
+        </properties>
+        
+    </persistence-unit>
+</persistence>

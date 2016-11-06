@@ -183,4 +183,9 @@ public class RefDataServiceImpl implements RefDataService {
         return locationDao.save(existing);
     }
 
+    @Override
+    public List<ContractType> findAllContractTypes() {
+        return contractTypeDao.findAll();
+    }
+
 }

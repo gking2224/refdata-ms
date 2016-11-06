@@ -20,7 +20,6 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,8 +28,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import me.gking2224.common.batch.JobExecutionBean;
 import me.gking2224.common.batch.JobParametersBuilderBuilder;
-import me.gking2224.refdatams.JobExecutionBean;
 
 @RestController
 @Profile("batch")
@@ -46,8 +45,7 @@ public class RefDataBatchController {
 
     @Autowired JobRegistry jobRegistry;
     
-    @Autowired @Qualifier("defaultJobParameters")
-    private JobParametersBuilderBuilder defaultJobParameters;
+    @Autowired JobParametersBuilderBuilder paramBuilder;
     
     @Autowired
     private JobLauncher jobLauncher;
@@ -62,8 +60,8 @@ public class RefDataBatchController {
         
         Job loadCountriesJob = jobRegistry.getJob(jobName);
         logger.debug("Running job {}", jobName);
-        
-        JobParametersBuilder jobParametersBuilder = defaultJobParameters.getJobParametersBuilder();
+
+        JobParametersBuilder jobParametersBuilder = paramBuilder.getJobParametersBuilder();
         
         JobExecution execution = jobLauncher.run(loadCountriesJob, jobParametersBuilder.toJobParameters());
         logger.debug("Launched loadCountries job: {}", execution);

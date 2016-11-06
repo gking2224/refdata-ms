@@ -36,6 +36,8 @@ import me.gking2224.refdatams.batch.jobs.ResourceBatchConfiguration;
 })
 public class ReferenceDataBatch {
     
+    static final String MAIN_BATCH_NAME = "mainRefDataBatch";
+
     private boolean async = true;
     
     @Autowired
@@ -50,7 +52,7 @@ public class ReferenceDataBatch {
     @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(ReferenceDataBatch.class);
     
-    @Bean("mainRefDataBatch")
+    @Bean(MAIN_BATCH_NAME)
     public Job mainBatch(
             @Qualifier("initMainBatch") Step initBatch,
             @Qualifier("countryBatch") Flow countryBatch,
@@ -58,7 +60,7 @@ public class ReferenceDataBatch {
             @Qualifier("locationBatch") Flow locationBatch,
             @Qualifier("locationRatesBatch") Flow locationRatesBatch
     ) {
-        SimpleJobBuilder builder = jobs.get("mainRefDataBatch")
+        SimpleJobBuilder builder = jobs.get(MAIN_BATCH_NAME)
             .start(initBatch);
         
         Flow[] flows = new Flow[] { countryBatch, locationBatch, locationRatesBatch, resourceBatch };

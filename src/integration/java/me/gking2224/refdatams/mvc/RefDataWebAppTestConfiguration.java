@@ -1,17 +1,12 @@
 package me.gking2224.refdatams.mvc;
 
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
-import me.gking2224.common.test.CommonTestConfiguration;
 import me.gking2224.common.test.WebAppTestConfigurer;
-import me.gking2224.refdatams.batch.BatchConfiguration;
-import me.gking2224.refdatams.db.DatabaseConfiguration;
-import me.gking2224.refdatams.db.EmbeddedDatabaseConfiguration;
-import me.gking2224.refdatams.web.WebAppConfiguration;
+import me.gking2224.refdatams.RefDataTestConfiguration;
 
-@ComponentScan({"me.gking2224.refdatams.model", "me.gking2224.refdatams.service"})
-@Import({BatchConfiguration.class, WebAppConfiguration.class, DatabaseConfiguration.class, EmbeddedDatabaseConfiguration.class, CommonTestConfiguration.class})
+@Import({RefDataTestConfiguration.class})
+@org.springframework.test.context.web.WebAppConfiguration
 public class RefDataWebAppTestConfiguration extends WebAppTestConfigurer {
 }

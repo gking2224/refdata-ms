@@ -3,22 +3,18 @@ buildscript {
         mavenLocal()
         mavenCentral()
         jcenter()
-//		maven {
-//			url 'https://artifactory.gking2224.me/artifactory/libs-snapshot'
-//		}
-//        maven {
-//            url 'https://artifactory.gking2224.me/artifactory/libs-release'
-//        }
+        maven { url= "http://nexus.gking2224.me/nexus/content/repositories/releases" }
+        maven { url= "http://nexus.gking2224.me/nexus/content/repositories/snapshots" }
 		maven { url "https://plugins.gradle.org/m2/" }
 //        maven.url "http://repo.spring.io/milestone"
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
-//        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.0"
-        classpath "me.gking2224:BuildToolsGradlePlugin:0.1.8-SNAPSHOT"
-        classpath "me.gking2224:AmazonAWSGradlePlugin:0.1.8-SNAPSHOT"
-        classpath "me.gking2224:DatabaseBuildGradlePlugin:0.1.0-SNAPSHOT"
-        classpath "me.gking2224:WebAppBuildGradlePlugin:0.0.1-SNAPSHOT"
+        classpath "me.gking2224:BuildToolsGradlePlugin:0.2.+"
+        classpath "me.gking2224:AmazonAWSGradlePlugin:0.1.+"
+        classpath "me.gking2224:DatabaseBuildGradlePlugin:0.1.+"
+        classpath "me.gking2224:WebAppBuildGradlePlugin:0.0.+"
+        classpath group: "me.gking2224", name:"MicroServicesGradlePlugin", version:"0.0.+"
         classpath "mysql:mysql-connector-java:5.1.39"
     }
 }
@@ -29,7 +25,7 @@ plugins {
 
 jar {
     baseName = 'refdata-ms'
-    version =  '0.0.1-SNAPSHOT'
+    version =  project.version
 }
 
 
@@ -40,6 +36,7 @@ apply plugin: 'me.gking2224.buildtools'
 apply plugin: 'me.gking2224.awsplugin'
 apply plugin: 'me.gking2224.databasebuild'
 apply plugin: 'me.gking2224.webappbuild'
+apply plugin: 'me.gking2224.msplugin'
 
 apply plugin: 'spring-boot'
 springBoot {
@@ -47,9 +44,10 @@ springBoot {
 }
 bootRun {
     jvmArgs "-Xdebug"
-    jvmArgs "-Xrunjdwp:server=y,transport=dt_socket,suspend=n,address="+project.envProps.jdwpPort
+    jvmArgs "-Xrunjdwp:server=y,transport=dt_socket,suspend=n,address="+project.envProps["build.jdwpPort"]
     jvmArgs "-Dorg.jboss.logging.provider=slf4j"
-    args = ["--spring.profiles.active=jmx,web,batch,"+project.env, "--debug"]
+    args = ["-a", "batch", "-e", "local"]
+//    args = ["--spring.profiles.active=jmx,web,batch,"+project.env, "--debug"]
 }
 bootRepackage {
     mainClass = 'me.gking2224.refdatams.RefDataMicroServiceApplication'
@@ -78,6 +76,8 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
+    maven { url= "http://nexus.gking2224.me/nexus/content/repositories/releases" }
+    maven { url= "http://nexus.gking2224.me/nexus/content/repositories/snapshots" }
 }
 
 integrationTest.outputs.upToDateWhen { false }
@@ -100,7 +100,7 @@ dependencies {
     // SPRING BOOT
     compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     compile("org.springframework.boot:spring-boot:$springBootVersion")
-    
+    compile("org.springframework.boot:spring-boot-starter-aop:$springBootVersion")
     
     
     // SPRING FRAMEWORK
@@ -110,6 +110,12 @@ dependencies {
     compile("org.springframework:spring-webmvc:$springVersion")
     compile("org.springframework:spring-context-support:$springVersion")
     compile("org.springframework.batch:spring-batch-core:$springBatchVersion")
+    
+    
+    // AOP
+    compile("org.springframework:spring-aop:${springVersion}")
+    compile("org.aspectj:aspectjrt:1.6.11")
+    compile("org.aspectj:aspectjweaver:1.6.11")
     
 
     
@@ -133,11 +139,11 @@ dependencies {
     
     // UTILS
     compile group: 'org.aspectj', name: 'aspectjtools', version: '1.6.2'
-    compile("me.gking2224:gk-microservice-utils:0.0.1-SNAPSHOT")
+    compile("me.gking2224:gk-microservice-utils:0.0.+")
     
     
     // SECURITY
-    compile group:'me.gking2224', name:'securityms-client', classifier:'client', version:'0.0.1-SNAPSHOT'
+    compile group:'me.gking2224', name:'securityms', classifier:'client', version:'0.1.+'
         // (why aren't these next two included as transitive dependencies of the above?)
         compile("org.springframework.security:spring-security-core:$springSecurityVersion")
         compile("org.springframework.security:spring-security-web:$springSecurityVersion")
@@ -168,4 +174,10 @@ configurations.compile {
 
 configurations {
   published
+}
+dependencies {
+    clientlib group:"me.gking2224", name:"gk-microservice-utils", classifier: "client", version:"0.0.+"
+    clientlib group:"me.gking2224", name:"gk-utils", version:"0.0.+"
+    clientlib("org.springframework:spring-web:$springVersion")
+    clientlib("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 }

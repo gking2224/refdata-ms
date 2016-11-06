@@ -2,7 +2,6 @@ package me.gking2224.refdatams.batch;
 
 import java.util.concurrent.Executor;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -16,7 +15,6 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -28,6 +26,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import me.gking2224.common.batch.JobParametersBuilderBuilder;
+import me.gking2224.common.utils.ExceptionUtils;
 
 @Configuration
 @Profile("batch")
@@ -39,19 +38,18 @@ public class BatchScheduler {
     
     @Autowired JobRegistry jobRegistry;
     
-    @Autowired @Qualifier("defaultJobParameters")
-    private JobParametersBuilderBuilder defaultJobParameters;
+    @Autowired JobParametersBuilderBuilder paramBuilder;
     
     @Autowired
     private JobLauncher jobLauncher;
     
-    @Scheduled(cron="0 0 18 * * *")
-    public void loadCountries() throws NoSuchJobException {
+    @Scheduled(cron="0 15 * * * *")
+    public void runMainBatch() throws NoSuchJobException {
         
         try {
             Job loadCountriesJob = jobRegistry.getJob("mainRefDataBatch");
-            
-            JobParametersBuilder jobParametersBuilder = defaultJobParameters.getJobParametersBuilder();
+
+            JobParametersBuilder jobParametersBuilder = paramBuilder.getJobParametersBuilder();
             
             JobExecution execution = jobLauncher.run(loadCountriesJob, jobParametersBuilder.toJobParameters());
             logger.debug("Launched loadCountries job: {}", execution);
@@ -66,7 +64,7 @@ public class BatchScheduler {
     public void contextStartedEvent(ContextStartedEvent event) {
         logger.debug("Batch started");
         try {
-            loadCountries();
+            runMainBatch();
         } catch (NoSuchJobException e) {
             logger.error("Failed to trigger batch on startup: {}", ExceptionUtils.getRootCauseMessage(e));
         }
