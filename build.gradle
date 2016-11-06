@@ -35,6 +35,7 @@ apply from: 'environments.gradle'
 
 apply plugin: 'me.gking2224.buildtools'
 apply plugin: 'me.gking2224.awsplugin'
+apply plugin: 'me.gking2224.dockerplugin'
 apply plugin: 'me.gking2224.databasebuild'
 apply plugin: 'me.gking2224.webappbuild'
 apply plugin: 'me.gking2224.msplugin'
