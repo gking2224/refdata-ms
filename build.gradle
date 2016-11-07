@@ -6,7 +6,6 @@ buildscript {
         maven { url= "http://nexus.gking2224.me/nexus/content/repositories/releases" }
         maven { url= "http://nexus.gking2224.me/nexus/content/repositories/snapshots" }
 		maven { url "https://plugins.gradle.org/m2/" }
-//        maven.url "http://repo.spring.io/milestone"
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
