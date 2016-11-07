@@ -184,3 +184,7 @@ dependencies {
     clientlib("org.springframework:spring-web:$springVersion")
     clientlib("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 }
+
+awsplugin {
+    region = "eu-west-1"
+}
