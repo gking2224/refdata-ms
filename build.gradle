@@ -77,8 +77,8 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
-    maven { url= "http://nexus.gking2224.me/nexus/content/repositories/releases" }
-    maven { url= "http://nexus.gking2224.me/nexus/content/repositories/snapshots" }
+    maven { url= "https://nexus.gking2224.me/nexus/content/repositories/releases" }
+    maven { url= "https://nexus.gking2224.me/nexus/content/repositories/snapshots" }
 }
 
 integrationTest.outputs.upToDateWhen { false }
