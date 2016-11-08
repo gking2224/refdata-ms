@@ -185,3 +185,6 @@ dependencies {
 awsplugin {
     region = "eu-west-1"
 }
+microservice {
+    taskDefinitionSuffix "batch"
+}
