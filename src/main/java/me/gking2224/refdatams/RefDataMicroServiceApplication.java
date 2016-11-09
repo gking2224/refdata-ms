@@ -24,6 +24,7 @@ import me.gking2224.refdatams.web.WebAppConfiguration;
     BatchConfiguration.class,
     WebAppConfiguration.class,
     AopConfiguration.class,
+    JmxConfiguration.class
 })
 public class RefDataMicroServiceApplication extends AbstractMicroServiceApplication {
 
