@@ -46,9 +46,10 @@ springBoot {
 }
 bootRun {
     jvmArgs "-Xdebug"
-    jvmArgs "-Xrunjdwp:server=y,transport=dt_socket,suspend=n,address="+project.envProps["build.jdwpPort"]
+    jvmArgs "-Xrunjdwp:server=y,transport=dt_socket,suspend=y,address="+project.envProps["build.jdwpPort"]
     jvmArgs "-Dorg.jboss.logging.provider=slf4j"
-    args = ["-a", "web,batch", "-e", "local"]
+    jvmArgs "-Dlogging.config=logback-local.xml"
+    args = ["-a", "jmx", "batch", "-e", "local"]
 }
 bootRepackage {
     mainClass = 'me.gking2224.refdatams.RefDataMicroServiceApplication'
@@ -139,7 +140,7 @@ dependencies {
     
     // UTILS
     compile group: 'org.aspectj', name: 'aspectjtools', version: '1.6.2'
-    compile("me.gking2224:gk-microservice-utils:0.0.+")
+    compile("me.gking2224:gk-microservice-utils:0.0.14-SNAPSHOT")
     
     
     // SECURITY

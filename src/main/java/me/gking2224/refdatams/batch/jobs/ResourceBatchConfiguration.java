@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -41,8 +42,8 @@ public class ResourceBatchConfiguration extends AbstractEtlBatchConfiguration<Re
     private PlatformTransactionManager transactionManager;
     
     @Bean("resourceBatch")
-    public Flow resourceBatch() {
-        return fileProcessFlowBuilder(steps, batchProperties).build();
+    public Flow resourceBatch(ConfigurableEnvironment environment) {
+        return fileProcessFlowBuilder(steps, environment, batchProperties).build();
     }
     
     @Override

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -37,8 +38,8 @@ public class LocationRatesBatchConfiguration extends AbstractEtlBatchConfigurati
     private PlatformTransactionManager transactionManager;
     
     @Bean("locationRatesBatch")
-    public Flow locationRatesBatch() {
-        return fileProcessFlowBuilder(steps, batchProperties).build();
+    public Flow locationRatesBatch(ConfigurableEnvironment environment) {
+        return fileProcessFlowBuilder(steps, environment, batchProperties).build();
     }
     
     @Override
