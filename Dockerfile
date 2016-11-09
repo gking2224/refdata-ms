@@ -14,7 +14,7 @@ ENV SERVICE       refdatams
 ENV DEBUG_OPTS    -Xdebug \
                   -Xrunjdwp:server=y,transport=dt_socket,suspend=y,address=8081
 ENV JAVA_OPTS     ${DEBUG:+${DEBUG_OPTS}}
-ENV JAVA_PROPS    -Dlogging.config=$WORK_DIR/logback.xml
+ENV JAVA_PROPS    -Dlogging.config=${LOGBACK_XML}
 ENV JAR           $WORK_DIR/service.jar
 
 # mount points
