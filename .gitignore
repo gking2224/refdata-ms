@@ -7,3 +7,4 @@
 /.project
 /secret.properties
 /.springBeans
+/logback-local.xml
