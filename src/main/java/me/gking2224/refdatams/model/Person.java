@@ -18,7 +18,7 @@ import me.gking2224.refdatams.client.PersonBean;
 
 @Entity
 @Table
-public class Person extends AbstractEntity<PersonBean> {
+public class Person extends AbstractEntity<Long, PersonBean> {
 
     @JsonView(View.Summary.class)
     private Long id;

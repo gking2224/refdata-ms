@@ -20,21 +20,6 @@ public class CityDaoImpl extends AbstractDaoImpl<City, Long> implements CityDao 
     }
 
     @Override
-    @Transactional(readOnly=false)
-    public City save(City city) {
-        
-        if (city.getId() == null) {
-            City existing = repository.findByNameAndCountryName(city.getName(), city.getCountry().getName());
-            if (existing != null) {
-                city.setId(existing.getId());
-            }
-        }
-        City saved = super.save(city);
-        flush();
-        return saved;
-    }
-
-    @Override
     public City findByName(String name) {
         return repository.findByName(name);
     }
@@ -42,6 +27,11 @@ public class CityDaoImpl extends AbstractDaoImpl<City, Long> implements CityDao 
     @Override
     protected JpaRepository<City, Long> getRepository() {
         return repository;
+    }
+
+    @Override
+    public City findExisting(City city) {
+        return findByName(city.getName());
     }
 }
 

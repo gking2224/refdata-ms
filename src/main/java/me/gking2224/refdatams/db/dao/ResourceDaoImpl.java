@@ -1,5 +1,7 @@
 package me.gking2224.refdatams.db.dao;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
@@ -23,5 +25,17 @@ public class ResourceDaoImpl extends AbstractDaoImpl<Resource, Long> implements 
     @Override
     protected JpaRepository<Resource, Long> getRepository() {
         return repository;
+    }
+
+    protected Resource findExisting(final Resource r) {
+        BigDecimal billRate = r.getBillRate();
+        String locationName = r.getLocationName();
+        String firstName = r.getFirstName();
+        String surname = r.getSurname();
+        String contractTypeCode = r.getContractTypeCode();
+        
+        return repository.findByBillRateAndPerson_FirstNameAndPerson_SurnameAndLocation_NameAndContractType_Code(
+                billRate, firstName, surname, locationName, contractTypeCode);
+        
     }
 }

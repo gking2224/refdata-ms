@@ -29,4 +29,9 @@ public class ContractTypeDaoImpl extends AbstractDaoImpl<ContractType, Long> imp
     protected JpaRepository<ContractType, Long> getRepository() {
         return repository;
     }
+
+    @Override
+    public ContractType findExisting(ContractType contractType) {
+        return findByCode(contractType.getCode());
+    }
 }

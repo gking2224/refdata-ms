@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import me.gking2224.common.db.AbstractDaoImpl;
 import me.gking2224.refdatams.db.jpa.LocationRepository;
+import me.gking2224.refdatams.model.Country;
 import me.gking2224.refdatams.model.Location;
 
 @Component
@@ -28,5 +29,11 @@ public class LocationDaoImpl extends AbstractDaoImpl<Location, Long> implements 
     @Override
     protected JpaRepository<Location, Long> getRepository() {
         return repository;
+    }
+
+
+    @Override
+    protected Location findExisting(Location location) {
+        return findByName(location.getName());
     }
 }

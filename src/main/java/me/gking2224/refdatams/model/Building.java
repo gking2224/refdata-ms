@@ -14,11 +14,12 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import me.gking2224.common.model.NullAbstractEntity;
 import me.gking2224.common.web.View;
 
 @Entity
 @Table
-public class Building implements java.io.Serializable {
+public class Building extends NullAbstractEntity<Long> implements java.io.Serializable {
 
     /**
      * 
@@ -115,5 +116,4 @@ public class Building implements java.io.Serializable {
         return String.format("Building [id=%s, name=%s, city=%s]",
                 id, name, city);
     }
-
 }

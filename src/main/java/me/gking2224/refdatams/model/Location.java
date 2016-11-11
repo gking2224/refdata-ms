@@ -30,7 +30,7 @@ import me.gking2224.refdatams.client.LocationBean;
 
 @Entity
 @Table
-public class Location extends AbstractEntity<LocationBean> implements java.io.Serializable {
+public class Location extends AbstractEntity<Long, LocationBean> implements java.io.Serializable {
 
     /**
      * 
@@ -46,8 +46,6 @@ public class Location extends AbstractEntity<LocationBean> implements java.io.Se
     private City city;
 
     private Country country;
-    
-//    private Map<Location, BigDecimal> locationRates;
     
     private Set<LocationRate> locationRates = new HashSet<LocationRate>();
     

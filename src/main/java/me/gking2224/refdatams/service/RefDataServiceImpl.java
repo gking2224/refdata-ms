@@ -106,7 +106,7 @@ public class RefDataServiceImpl implements RefDataService {
         r.setContractType(ct);
         r.setLocation(l);
         r.setPerson(p);
-        return resourceDao.save(r);
+        return resourceDao.saveOrUpdate(r);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class RefDataServiceImpl implements RefDataService {
             l.setCountry(countryDao.findByCode(l.getCountry().getCode()));
         }
         
-        return locationDao.save(l);
+        return locationDao.saveOrUpdate(l);
         
     }
 
@@ -138,7 +138,7 @@ public class RefDataServiceImpl implements RefDataService {
             b.setCity(saveCity(b.getCity()));
         }
         
-        return buildingDao.save(b);
+        return buildingDao.saveOrUpdate(b);
         
     }
 
@@ -149,14 +149,14 @@ public class RefDataServiceImpl implements RefDataService {
             c.setCountry(countryDao.findByCode(c.getCountry().getCode()));
         }
         
-        return cityDao.save(c);
+        return cityDao.saveOrUpdate(c);
         
     }
 
     @Override
     @Transactional(readOnly=false)
     public Country saveCountry(final Country c) {
-        return countryDao.save(c);
+        return countryDao.saveOrUpdate(c);
         
     }
 
@@ -180,7 +180,7 @@ public class RefDataServiceImpl implements RefDataService {
                 existing.addLocationRate(newRate);
             }
         });
-        return locationDao.save(existing);
+        return locationDao.saveOrUpdate(existing);
     }
 
     @Override

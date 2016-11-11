@@ -21,20 +21,6 @@ public class CountryDaoImpl extends AbstractDaoImpl<Country, Long> implements Co
     }
 
     @Override
-    @Transactional(readOnly=false)
-    public Country save(final Country country) {
-        
-        if (country.getId() == null) {
-            Country existing = repository.findByCode(country.getCode());
-            if (existing != null) {
-                country.setId(existing.getId());
-            }
-        }
-        Country saved = repository.save(country);
-        return saved;
-    }
-
-    @Override
     public Country findByCode(final String code) {
         return repository.findByCode(code);
     }
@@ -42,6 +28,11 @@ public class CountryDaoImpl extends AbstractDaoImpl<Country, Long> implements Co
     @Override
     protected JpaRepository<Country, Long> getRepository() {
         return repository;
+    }
+
+    @Override
+    protected Country findExisting(Country country) {
+        return findByCode(country.getCode());
     }
 }
 

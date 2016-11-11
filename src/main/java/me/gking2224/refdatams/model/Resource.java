@@ -23,7 +23,7 @@ import me.gking2224.refdatams.client.ResourceBean;
 
 @Entity
 @Table
-public class Resource extends AbstractEntity<ResourceBean> {
+public class Resource extends AbstractEntity<Long, ResourceBean> {
 
     private Long id;
     

@@ -18,7 +18,7 @@ import me.gking2224.refdatams.client.ContractTypeBean;
 
 @Entity
 @Table
-public class ContractType extends AbstractEntity<ContractTypeBean>{
+public class ContractType extends AbstractEntity<Long, ContractTypeBean>{
 
     private Long id;
     

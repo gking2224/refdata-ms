@@ -3,6 +3,7 @@ package me.gking2224.refdatams.db.jpa;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
@@ -35,5 +36,14 @@ public class ResourceRepositoryIT {
         
         assertNotNull(ll);
         assertTrue(ll.size() > 0);
+    }
+    
+    @Test
+    public void testFindByBillRateAndPersonFirstNameAndPersonSurnameAndLocationNameAndContractTypeCode() {
+        
+        Resource r = repository.findByBillRateAndPerson_FirstNameAndPerson_SurnameAndLocation_NameAndContractType_Code(
+                new BigDecimal(400.0), "Alex", "Powell", "UK", "P");
+        
+        assertNotNull(r);
     }
 }

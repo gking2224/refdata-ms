@@ -20,21 +20,6 @@ public class BuildingDaoImpl extends AbstractDaoImpl<Building, Long> implements 
     }
 
     @Override
-    @Transactional(readOnly=false)
-    public Building save(final Building building) {
-        
-        if (building.getId() == null) {
-            Building existing = repository.findByNameAndCityName(building.getName(), building.getCity().getName());
-            if (existing != null) {
-                building.setId(existing.getId());
-            }
-        }
-        Building saved = repository.save(building);
-        flush();
-        return saved;
-    }
-
-    @Override
     public Building findByName(final String name) {
         return repository.findByName(name);
     }
@@ -42,6 +27,11 @@ public class BuildingDaoImpl extends AbstractDaoImpl<Building, Long> implements 
     @Override
     protected JpaRepository<Building, Long> getRepository() {
         return repository;
+    }
+
+    @Override
+    protected Building findExisting(Building building) {
+        return findByName(building.getName());
     }
 }
 
