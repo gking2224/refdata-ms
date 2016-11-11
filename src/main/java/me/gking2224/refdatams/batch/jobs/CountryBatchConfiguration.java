@@ -68,8 +68,6 @@ public class CountryBatchConfiguration extends AbstractEtlBatchConfiguration<Cou
             tt.execute(status -> {
                 return refDataService.saveCountry(country);
             });
-                
-//            countryDao.save(country);
             return null;
         };
     }
