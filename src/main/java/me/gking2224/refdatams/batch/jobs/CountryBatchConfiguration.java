@@ -16,8 +16,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import me.gking2224.common.batch.generic.AbstractEtlBatchConfiguration;
-import me.gking2224.refdatams.db.dao.CountryDao;
 import me.gking2224.refdatams.model.Country;
+import me.gking2224.refdatams.service.RefDataService;
 
 @Configuration
 public class CountryBatchConfiguration extends AbstractEtlBatchConfiguration<CountryInFile, Country> {
@@ -29,7 +29,7 @@ public class CountryBatchConfiguration extends AbstractEtlBatchConfiguration<Cou
     private StepBuilderFactory steps;
     
     @Autowired
-    private CountryDao countryDao;
+    private RefDataService refDataService;
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -65,7 +65,11 @@ public class CountryBatchConfiguration extends AbstractEtlBatchConfiguration<Cou
         return country -> {
             TransactionTemplate tt = new TransactionTemplate(transactionManager);
             tt.setPropagationBehavior(PROPAGATION_REQUIRES_NEW);
-            tt.execute(status -> countryDao.save(country));
+            tt.execute(status -> {
+                return refDataService.saveCountry(country);
+            });
+                
+//            countryDao.save(country);
             return null;
         };
     }

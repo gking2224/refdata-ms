@@ -21,6 +21,7 @@ import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import me.gking2224.common.batch.JobRunResult;
 import me.gking2224.common.batch.JobRunner;
@@ -36,6 +37,8 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
     private static Logger logger = LoggerFactory.getLogger(BatchConfiguration.class);
 
     @Autowired JobRunner jobRunner;
+    
+    @Autowired PlatformTransactionManager trxManager;
     
     @Override
     protected JobLauncher createJobLauncher() throws Exception {
@@ -68,5 +71,10 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
         
         JobRunResult result = jobRunner.runJob(MAIN_BATCH_NAME);
         return result.getStatusMessage();
+    }
+
+    @Override
+    public PlatformTransactionManager getTransactionManager() {
+        return trxManager;
     }
 }

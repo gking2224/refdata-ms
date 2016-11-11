@@ -2,6 +2,7 @@ package me.gking2224.refdatams.web.mvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
 import java.util.Set;
@@ -30,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import me.gking2224.common.batch.JobExecutionBean;
 import me.gking2224.common.batch.JobParametersBuilderBuilder;
+import me.gking2224.refdatams.model.Country;
+import me.gking2224.refdatams.service.RefDataService;
 
 @RestController
 @Profile("batch")
@@ -52,6 +55,8 @@ public class RefDataBatchController {
 
     @Autowired
     private JobExplorer jobExplorer;
+    
+    @Autowired RefDataService service;
 
     @RequestMapping(value=RUN, method=GET)
     public ResponseEntity<Void> loadCountries(
@@ -108,5 +113,14 @@ public class RefDataBatchController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(APPLICATION_JSON);
         return new ResponseEntity<Void>(headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="test", method=POST)
+    public ResponseEntity<Void> testSaveCountry() {
+        Country country = new Country();
+        country.setCode("UK");
+        country.setName("United Bloomin' Kingdom");
+        service.saveCountry(country);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

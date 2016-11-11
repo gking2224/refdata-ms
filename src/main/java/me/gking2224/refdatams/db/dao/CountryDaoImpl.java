@@ -31,7 +31,6 @@ public class CountryDaoImpl extends AbstractDaoImpl<Country, Long> implements Co
             }
         }
         Country saved = repository.save(country);
-        flush();
         return saved;
     }
 

@@ -1,4 +1,4 @@
-package me.gking2224.refdatams.batch;
+package me.gking2224.refdatams.batch.jobs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 import me.gking2224.refdatams.batch.jobs.CountryBatchConfiguration;
+import me.gking2224.refdatams.batch.jobs.InitMainBatchStep;
 import me.gking2224.refdatams.batch.jobs.LocationBatchConfiguration;
 import me.gking2224.refdatams.batch.jobs.LocationRatesBatchConfiguration;
 import me.gking2224.refdatams.batch.jobs.ResourceBatchConfiguration;
@@ -38,7 +39,7 @@ public class ReferenceDataBatch {
     
     static final String MAIN_BATCH_NAME = "mainRefDataBatch";
 
-    private boolean async = true;
+    private boolean async = false;
     
     @Autowired
     private JobBuilderFactory jobs;
@@ -55,15 +56,15 @@ public class ReferenceDataBatch {
     @Bean(MAIN_BATCH_NAME)
     public Job mainBatch(
             @Qualifier("initMainBatch") Step initBatch,
-            @Qualifier("countryBatch") Flow countryBatch,
+            @Qualifier("countryBatch") Flow countryBatch/*,
             @Qualifier("resourceBatch") Flow resourceBatch,
             @Qualifier("locationBatch") Flow locationBatch,
-            @Qualifier("locationRatesBatch") Flow locationRatesBatch
+            @Qualifier("locationRatesBatch") Flow locationRatesBatch*/
     ) {
         SimpleJobBuilder builder = jobs.get(MAIN_BATCH_NAME)
             .start(initBatch);
         
-        Flow[] flows = new Flow[] { countryBatch, locationBatch, locationRatesBatch, resourceBatch };
+        Flow[] flows = new Flow[] { countryBatch };//, locationBatch, locationRatesBatch, resourceBatch };
         if (async)
             async(builder, flows);
         else
