@@ -12,6 +12,7 @@ import org.springframework.batch.core.configuration.support.GenericApplicationCo
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.launch.support.SimpleJobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
@@ -19,7 +20,6 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -39,7 +39,7 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
 
     @Autowired JobRunner jobRunner;
     
-    @Autowired JpaTransactionManager trxManager;
+    @Autowired @Qualifier("jpaTransactionManager") PlatformTransactionManager trxManager;
     
     @Override
     protected JobLauncher createJobLauncher() throws Exception {
