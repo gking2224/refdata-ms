@@ -30,9 +30,10 @@ import me.gking2224.common.batch.JobRunner;
 @Profile("batch")
 @Import({BatchScheduler.class})
 @EnableBatchProcessing(modular=true)
-@ManagedResource(objectName=BatchConfiguration.SERVICE_NAME_BATCH, description="Batch Service",log=true, logFile="jmx.log", persistPolicy="Never")
+@ManagedResource(objectName=BatchConfiguration.SERVICE_NAME, description="Batch Service",log=true, logFile="jmx.log", persistPolicy="Never")
 public class BatchConfiguration extends DefaultBatchConfigurer {
-    public static final String SERVICE_NAME_BATCH = JMX_MBEAN_GROUP_NAME_PREFIX + "Ref Data Batch Configuration";
+    
+    public static final String SERVICE_NAME = JMX_MBEAN_GROUP_NAME_PREFIX + "RefDataBatchConfiguration";
 
     @SuppressWarnings("unused")
     private static Logger logger = LoggerFactory.getLogger(BatchConfiguration.class);
