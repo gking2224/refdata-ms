@@ -1,6 +1,7 @@
 package me.gking2224.refdatams.batch.jobs;
 
 import static org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW;
+import static org.springframework.util.StringUtils.hasLength;
 
 import java.util.Properties;
 import java.util.function.Function;
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.StringUtils;
 
 import me.gking2224.common.batch.generic.AbstractEtlBatchConfiguration;
 import me.gking2224.refdatams.model.Building;
@@ -93,16 +95,18 @@ public class LocationBatchConfiguration extends AbstractEtlBatchConfiguration<Lo
     }
 
     private Country createCountry(LocationFileRow lf) {
-        return new Country(lf.getCountry());
+        String country = lf.getCountry();
+        return (!hasLength(country)) ? null : new Country(country);
     }
 
     private City createCity(LocationFileRow lf) {
         String city = lf.getCity();
-        return city == null ? null : new City(city, createCountry(lf));
+        return (!hasLength(city)) ? null : new City(city, createCountry(lf));
     }
 
     private Building createBuilding(LocationFileRow lf) {
-        return new Building(lf.getBuilding(), createCity(lf));
+        String building = lf.getBuilding();
+        return (!hasLength(building)) ? null : new Building(building, createCity(lf));
     }
     
     @Override
