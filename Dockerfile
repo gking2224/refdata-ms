@@ -11,10 +11,10 @@ MAINTAINER Graham King <gking2224@gmail.com>
 	
 # environment variables
 ENV SERVICE       refdatams
-ENV LOGBACK_XML   /logs/logback.xml
 ENV DEBUG_OPTS    -Xdebug \
                   -Xrunjdwp:server=y,transport=dt_socket,suspend=y,address=8081
 ENV JAVA_OPTS     ${DEBUG:+${DEBUG_OPTS}}
+ENV LOGBACK_XML   /logs/logback.xml
 ENV JAVA_PROPS    -Dlogging.config=${LOGBACK_XML}
 ENV JAR           $WORK_DIR/service.jar
 
