@@ -196,3 +196,6 @@ awsplugin {
 microservice {
     taskDefinitionSuffix "batch"
 }
+buildDockerImage.doFirst {
+    addFile "build/libs/${project.name}-${project.preReleaseVersion}-boot.jar",  "\$WORK_DIR/service.jar"
+}
