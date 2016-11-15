@@ -13,7 +13,7 @@ buildscript {
         classpath "me.gking2224:AmazonAWSGradlePlugin:0.1.+"
         classpath "me.gking2224:DatabaseBuildGradlePlugin:0.1.+"
         classpath "me.gking2224:WebAppBuildGradlePlugin:0.0.+"
-        classpath group: "me.gking2224", name:"MicroServicesGradlePlugin", version:"0.0.+"
+        classpath group: "me.gking2224", name:"MicroServicesGradlePlugin", version:"0.1.+"
         classpath "mysql:mysql-connector-java:5.1.39"
         classpath 'se.transmode.gradle:gradle-docker:1.2'
     }

@@ -13,6 +13,7 @@ import me.gking2224.refdatams.aop.AopConfiguration;
 import me.gking2224.refdatams.batch.BatchConfiguration;
 import me.gking2224.refdatams.db.DatabaseConfiguration;
 import me.gking2224.refdatams.db.EmbeddedDatabaseConfiguration;
+import me.gking2224.refdatams.security.SecurityConfiguration;
 import me.gking2224.refdatams.web.WebAppConfiguration;
 
 @Configuration
@@ -22,6 +23,7 @@ import me.gking2224.refdatams.web.WebAppConfiguration;
     DatabaseConfiguration.class, EmbeddedDatabaseConfiguration.class,
     BatchConfiguration.class,
     WebAppConfiguration.class,
+    SecurityConfiguration.class,
     AopConfiguration.class,
 })
 public class RefDataMicroServiceApplication extends AbstractMicroServiceApplication {
