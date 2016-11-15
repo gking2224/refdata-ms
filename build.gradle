@@ -9,7 +9,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
-        classpath "me.gking2224:BuildToolsGradlePlugin:0.2.+"
+        classpath "me.gking2224:BuildToolsGradlePlugin:0.3.+"
         classpath "me.gking2224:AmazonAWSGradlePlugin:0.1.+"
         classpath "me.gking2224:DatabaseBuildGradlePlugin:0.1.+"
         classpath "me.gking2224:WebAppBuildGradlePlugin:0.0.+"
@@ -29,10 +29,16 @@ jar {
 }
 
 
+apply plugin: 'me.gking2224.buildtools'
+buildtools {
+    eclipseEnabled()
+    mavenEnabled()
+    clientlibEnabled()
+}
+applyBuildTools()
 apply from: 'database.gradle'
 apply from: 'environments.gradle'
 
-apply plugin: 'me.gking2224.buildtools'
 apply plugin: 'me.gking2224.awsplugin'
 apply plugin: 'me.gking2224.dockerplugin'
 apply plugin: 'me.gking2224.databasebuild'
