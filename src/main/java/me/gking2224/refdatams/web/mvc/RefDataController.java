@@ -60,7 +60,6 @@ public class RefDataController extends AbstractController {
     }
 
     @RequestMapping(value=ALL, method=GET)
-    @JsonView(View.Summary.class)
     public ResponseEntity<RefDataContainer> getAllRefData(
     ) {
         
